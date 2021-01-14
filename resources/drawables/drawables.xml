@@ -1,0 +1,14 @@
+<drawables>
+    <bitmap id="LauncherIcon" filename="launcher_icon.png" dithering="none" >
+        <!-- <palette disableTransparency="false">
+            <color>FFFFFF</color>
+            <color>000000</color>
+        </palette> -->
+    </bitmap>
+    <bitmap id="PlayButtonDefault" filename="play_w.png" dithering="none" />
+    <bitmap id="PlayButtonPressed" filename="play_pressed.png" dithering="none" />
+    <bitmap id="ReplayButtonDefault" filename="replay_w.png" dithering="none" />
+    <bitmap id="ReplayButtonPressed" filename="replay_pressed.png" dithering="none" />
+    <bitmap id="StopButtonDefault" filename="stop_w.png" dithering="none" />
+    <bitmap id="StopButtonPressed" filename="stop_pressed.png" dithering="none" />
+</drawables>

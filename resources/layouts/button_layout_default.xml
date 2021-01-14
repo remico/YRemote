@@ -1,0 +1,8 @@
+<layout id="ButtonLayoutDefault">
+    <button x="136" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onMenu">
+        <state id="stateDefault" bitmap="@Drawables.PlayButtonDefault" />
+        <state id="stateHighlighted" bitmap="@Drawables.PlayButtonPressed" />
+        <state id="stateSelected" bitmap="@Drawables.PlayButtonPressed" />
+        <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
+    </button>
+</layout>
