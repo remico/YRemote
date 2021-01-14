@@ -1,0 +1,123 @@
+@startuml
+
+' !pragma useVerticalIf on
+skinparam ConditionEndStyle hline
+
+
+split
+    -[hidden]->
+    package "_try_read()" {
+        start
+
+        if (sock read?) then (yes)
+            :append to buffer]
+        else (EX)
+            :clear buffer]
+            #red:(E)
+            detach
+        endif
+
+        stop
+    }
+
+split again
+    -[hidden]->
+    package "_try_decode()" {
+        start
+
+        if (buffer empty?) then (yes)
+            #lightgray:return empty json;
+            kill
+        endif
+
+        if (decoded?) then (yes)
+            #lightgray:return valid json;
+        else (EX)
+            #red:(E)
+        endif
+
+        kill
+    }
+
+end split
+
+package "wait_response()" {
+    start
+
+    repeat :_try_read()|
+
+    if (EX) then (yes)
+        #red:throw;
+        kill
+    endif
+
+    #PaleGreen:(2)
+
+    :_try_decode()|
+    if (EX) then (yes)
+        :catch]
+        note
+            some data in buffer,
+            but not the whole json
+        end note
+        #PaleGreen:(1)
+        detach
+
+    elseif (rx_json?) then ({})
+        #PaleGreen:(1)
+        note :buffer empty
+        if (already responded?) then (yes)
+            #lightgray:return response;
+            kill
+        else (no)
+        endif
+
+    else ({data})
+        if (is response?) then (yes)
+            :remember response]
+            #PaleGreen:(2)
+            note
+                continue decoding
+                all buffered data]
+            end note
+            detach
+        else (no)
+        endif
+    endif
+    backward :continue reading\nuntil get response]
+    repeat while
+    detach
+}
+
+package "read_chunk()" {
+    start
+
+    :_try_read()|
+
+    if (EX) then (yes)
+        #red:throw;
+        kill
+    endif
+
+    #PaleGreen:(2)
+
+    repeat :_try_decode()|
+    if (EX) then (yes)
+        :catch]
+        note
+            some data in buffer,
+            but not the whole json
+        end note
+        stop
+    elseif (rx_json?) then ({})
+        stop
+    else ({data})
+        :log received data/
+    endif
+    backward :continue decoding\nall buffered data]
+    repeat while
+    detach
+}
+
+
+@enduml

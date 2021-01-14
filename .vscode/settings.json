@@ -1,0 +1,18 @@
+{
+    "python.pythonPath": "/usr/bin/python3",
+    "psi-header.config": {
+        "license": "BSD-3-Clause",
+    },
+    "psi-header.variables": [
+        // ["projectname", "YRemote"],
+    ],
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/source",
+        "${workspaceFolder}/source/companion-app/ambarpc",
+    ],
+    // "DCKR.extra_opts": "",
+    "plantuml.diagramsRoot": "scripts/uml",
+    "plantuml.exportOutDir": "scripts/uml/svg",
+    "plantuml.exportSubFolder": false,
+    "plantuml.exportFormat": "svg",
+}

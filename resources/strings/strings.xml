@@ -1,3 +1,7 @@
 <strings>
-    <string id="AppName">Recording Control</string>
+    <string id="AppName">YRemote</string>
+    <string id="CameraUrl">CAM url</string>
+    <string id="CameraPort">CAM port</string>
+    <string id="DawUrl">DAW url</string>
+    <string id="DawPort">DAW port</string>
 </strings>

@@ -1,3 +1,8 @@
 .settings/
 bin/
 build/
+__pycache__
+scripts/uml/svg/
+scripts/docker/garmin_developer_key
+scripts/docker/*.zip
+scripts/docker/*.tar.*

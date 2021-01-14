@@ -1,0 +1,49 @@
+@startuml
+footer LAN example
+
+title == """Recording Control"""\ndeployment
+
+actor User
+agent "widget" as w
+
+node 192.168.0.105 << laptop >> as pc {
+    agent ":7878\nCompanion App"  as ca
+    agent ":8080\nReaper DAW" as daw
+}
+
+node "192.168.0.106" << YI camera >> {
+    agent ":7878\nTCP server" as cam
+}
+
+skinparam agent {
+    RoundCorner 15
+}
+
+User -> w
+
+note top on link
+interact with
+Garmin watch
+end note
+
+w --> ca #green;text:green : http\l\
+POST\n\
+{ JSON command }
+
+w <-- ca #purple;text:purple : http\l\
+200 OK\n\
+{ JSON data }
+
+w --> daw #green;text:green : http\l\
+GET\n\
+{ command }
+
+w <-- daw #purple;text:purple : http\n\
+200 OK
+
+ca --> cam #green;text:green : tcp\n\
+{ JSON request}
+
+ca <-- cam #purple;text:purple : tcp\n\
+{ JSON response | status }
+@enduml

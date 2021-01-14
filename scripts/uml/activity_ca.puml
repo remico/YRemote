@@ -1,0 +1,125 @@
+@startuml
+header
+Activity diagram
+<font color=blue>Companion App</font>
+end header
+
+title
+== """RecordingControl Companion App"""
+workflow
+end title
+
+' !pragma useVerticalIf on
+skinparam ConditionEndStyle hline
+
+partition "main routine" {
+    start
+
+    partition "server initialization" {
+        :read settings;
+        :create HTTP server
+        on :7878;
+        :initialize polling routine / selector;
+    }
+
+    repeat :wait for incoming data: select( [httpd, ...] );
+
+    if (data available?) then (HTTP)
+        :WSGI app
+        (handle single http request)|
+
+    else (TCP)
+        :read TCP stream/
+        :parse json;
+        #lightblue:print log;
+    endif
+    ' backward: backward label;
+    repeat while
+    ' repeat while (condition?) is (Yes) not (No)
+
+    detach
+}
+
+' ========================
+' WSGI BEGIN
+' ========================
+partition "WSGI app" {
+    start
+
+    :read HTTP body/
+    floating note: assert content-type: application/json
+
+    :load data as json;
+    :remember 'msg_id';
+    note right
+        on next CAM message => check
+        if data is "response?"
+    end note
+
+    if (is TCP socket open?) then (yes)
+        #palegreen:(A)
+        :pack json to TCP
+        and send to CAM;
+
+        if (delivered?) then (success)
+
+            #palegreen:(C)
+            repeat :wait for CAM data;
+                :append response to buffer;
+                :try to raw decode json;
+                backward :log the error;
+            repeat while (json decoded?) is (error) not (success)
+
+            :remove decoded part from buffer;
+
+            if (is response?) then (yes)
+                :create HTTP response
+                *""200 OK""
+                *""json body"";
+            else (no)
+                #palegreen:(C)
+                note right :continue\nwaiting
+            endif
+
+        else (error)
+            #palegreen:(B)
+        endif
+
+    else (no)
+
+        partition "establish TCP channel" {
+            :create TCP socket;
+            :register TCP socket in polling routine:
+            select( [httpd, socket] );
+            note right :to keep TCP \nbuffer clean
+            :connect to CAM forever;
+        }
+
+        if (connected?) then (success)
+            #palegreen:(A)
+        else (error)
+            #palegreen:(B)
+            :create HTTP response:
+            *""error code""
+            *""error text as json body"";
+        endif
+
+    endif
+
+    partition "make wsgi response" {
+        :send the response headers;
+        :return the response body as an array of encoded strings;
+    }
+    stop
+}
+' ========================
+' WSGI END
+' ========================
+
+
+legend top left
+* WATCH - widget running on a Garmin smart watch
+* CAM - action camera
+end legend
+
+@enduml

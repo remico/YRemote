@@ -4,16 +4,50 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "garmin tasks",
+            "label": "Garmin: build tasks",
             "type": "shell",
-            "command": "docker run ${config:DCKR.dvlp} --rm -it watchremote2:latest ${input:GarminTask}",
+            "command": "docker run ${config:DCKR.dvlp} --mount type=bind,src=${workspaceFolder},dst=${workspaceFolder} --rm -it connectiq ${workspaceFolder}/scripts/build.sh ${input:GarminBuildType}",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Garmin: eclipse",
+            "type": "docker-run",
+            "dockerRun": {
+                "image": "recordingcontrol",
+                // "command": "eclipse",
+                "customOptions": "${config:DCKR.dvlp}",
+                "volumes": [
+                    {
+                        "localPath": "${workspaceFolder}",
+                        "containerPath": "${env:HOME}/app",
+                        "permissions": "rw"
+                    },
+                    {
+                        "localPath": "eclipse",
+                        "containerPath": "${env:HOME}/.eclipse",
+                        "permissions": "rw"
+                    }
+                ],
+                "remove": true
+            }
+        },
+        {
+            "label": "Garmin: companion app",
+            "type": "shell",
+            "command": "${config:python.pythonPath} -m companion-app",
+            "options": {
+                "cwd": "${workspaceFolder}/source"
+            },
+            "problemMatcher": [],
         }
     ],
+    // ======================================
+    // ============== INPUTS ================
+    // ======================================
     "inputs": [
         {
             "id": "PickContainer",
@@ -21,12 +55,16 @@
             "command": "vscode-docker.containers.select"
         },
         {
-            "id": "GarminTask",
+            "id": "GarminBuildType",
             "type": "pickString",
-            "description": "Garmin task to do",
+            "description": "Garmin app build type",
+            "default": "simulator",
             "options": [
-                "${workspaceFolder}/scripts/build.sh",
-                "${workspaceFolder}/scripts/simulate.sh"
+                "simulator",
+                "simulator_release",
+                "debug",
+                "release",
+                "publish"
             ]
         }
     ]

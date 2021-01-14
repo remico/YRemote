@@ -1,0 +1,95 @@
+@startuml
+header Sequence diagram
+
+title
+== """Recording Control"""
+communications
+end title
+
+' skinparam ResponseMessageBelowArrow true
+' skinparam LifelineStrategy solid
+
+participant "Watch" as w
+participant "Companion App" as ca
+participant "Yi Camera" as cam
+participant "Reaper DAW" as daw
+
+' Widget's menu "Authenticate?"
+group YI camera authentification
+
+w -> ca : http POST\n\
+{"msg_id": 257, "token": 0}
+activate ca
+
+alt success
+ca -> cam : tcp\n\
+{"msg_id": 257, "token": 0}
+activate cam
+
+ca <- cam : tcp \n\
+{"msg_id": 257, "param": <token>, ...}
+deactivate cam
+
+w <- ca : http 200 OK\n\
+{"msg_id": 257, "param": <token>, ...}
+deactivate ca
+
+else HTTP error
+
+w <- ca : http <EE_CODE>
+
+end 'alt
+end 'group
+
+||20||
+...
+
+== generic sequence ==
+
+'recording sequence
+group start recording
+
+w -> ca : http POST\n\
+{"msg_id": 513, "token": <token>}
+activate ca
+
+alt success
+ca -> cam : tcp\n\
+{"msg_id": 513, "token": <token>}
+activate cam
+
+ca <- cam : tcp \n\
+{"msg_id": 513, "param": <token>, ...}
+deactivate cam
+
+w <- ca : http 200 OK\n\
+{"msg_id": 513, "param": <token>, ...}
+deactivate ca
+
+w -> daw : http GET\n\
+{<command>}
+activate daw
+
+w <- daw : http 200 OK
+deactivate daw
+
+else YI Camera HTTP error
+w <- ca : http <EE_CODE>
+
+else Reaper DAW HTTP error
+w <- daw : http <EE_CODE>
+
+end 'alt
+end 'group
+
+... recording in progress ...
+
+group stop recording
+
+w -> ca : http POST\n\
+{"msg_id": 514, "token": <token>}
+
+|||
+end 'group
+
+@enduml

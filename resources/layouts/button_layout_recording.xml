@@ -1,11 +1,11 @@
 <layout id="ButtonLayoutRecording">
-    <button x="40" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onBack">
+    <button x="40" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onStop">
         <state id="stateDefault" bitmap="@Drawables.StopButtonDefault" />
         <state id="stateHighlighted" bitmap="@Drawables.StopButtonPressed" />
         <state id="stateSelected" bitmap="@Drawables.PlayButtonPressed" />
         <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
     </button>
-    <button x="136" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onMenu">
+    <button x="136" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onReplay">
         <state id="stateDefault" bitmap="@Drawables.ReplayButtonDefault" />
         <state id="stateHighlighted" bitmap="@Drawables.ReplayButtonPressed" />
         <state id="stateSelected" bitmap="@Drawables.PlayButtonPressed" />

@@ -1,1 +1,0 @@
-FROM ubuntu_openjdk8
