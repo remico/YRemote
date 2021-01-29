@@ -1,11 +1,11 @@
-<layout id="ButtonLayoutDefault">
-    <button x="40" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onStop">
+<layout id="LayoutPageInitial">
+    <button x="40" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onStopRecording">
         <state id="stateDefault" bitmap="@Drawables.StopButtonDefault" />
         <state id="stateHighlighted" bitmap="@Drawables.StopButtonPressed" />
         <state id="stateSelected" bitmap="@Drawables.PlayButtonPressed" />
         <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
     </button>
-    <button x="136" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onPlay">
+    <button x="136" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onStartRecording">
         <state id="stateDefault" bitmap="@Drawables.PlayButtonDefault" />
         <state id="stateHighlighted" bitmap="@Drawables.PlayButtonPressed" />
         <state id="stateSelected" bitmap="@Drawables.PlayButtonPressed" />

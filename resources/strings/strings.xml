@@ -1,7 +1,10 @@
 <strings>
     <string id="AppName">YRemote</string>
+    <!-- settings -->
     <string id="CameraUrl">CAM url</string>
     <string id="CameraPort">CAM port</string>
     <string id="DawUrl">DAW url</string>
     <string id="DawPort">DAW port</string>
+    <!-- alerts -->
+    <string id="AlertNoConnection">No connection to phone</string>
 </strings>

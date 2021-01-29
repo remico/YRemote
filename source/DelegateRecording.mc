@@ -77,32 +77,32 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
     }
     // ------------ menu end -----------
 
-    function onPlay() {
+    function onStartRecording() {
         Util.feedback(1);
-        self.mYiCamera.recStart(method(:_onPlayOk));
+        self.mYiCamera.recStart(method(:_StartRecordingOk));
     }
 
-    function _onPlayOk(d) {
+    function _StartRecordingOk(d) {
         var view = new PageRecording();
         WatchUi.switchToView(view, self, WatchUi.SLIDE_BLINK);
         self.mDaw.recStart();
     }
 
-    function onReplay() {
+    function onRestartRecording() {
         Util.feedback(1);
-        self.mYiCamera.recRestart(method(:_onRecReplayOk));
+        self.mYiCamera.recRestart(method(:_onRestartRecordingOk));
     }
 
-    function _onRecReplayOk(d) {
+    function _onRestartRecordingOk(d) {
         self.mDaw.recRestart();
     }
 
-    function onStop() {
+    function onStopRecording() {
         Util.feedback(2);
-        self.mYiCamera.recStop(method(:_onStopOk));
+        self.mYiCamera.recStop(method(:_onStopRecordingOk));
     }
 
-    function _onStopOk(d) {
+    function _onStopRecordingOk(d) {
         var view = new PageInitial();
         WatchUi.switchToView(view, self, WatchUi.SLIDE_BLINK);
 

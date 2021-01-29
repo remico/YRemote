@@ -12,14 +12,15 @@
  */
 using Toybox.WatchUi;
 
-class PageRecording extends WatchUi.View {
+class PageRecording extends PageBase {
     function initialize() {
-        View.initialize();
+        PageBase.initialize();
     }
 
     //! Load your resources here
     function onLayout(dc) {
-        setLayout(Rez.Layouts.ButtonLayoutRecording(dc));
+        setLayout(Rez.Layouts.LayoutPageRecording(dc));
+        return PageBase.onLayout(dc);
     }
 
     // Called when this View is brought to the foreground. Restore
@@ -36,7 +37,7 @@ class PageRecording extends WatchUi.View {
 
     // Update the view
     function onUpdate(dc) {
-        View.onUpdate(dc);  // Call the parent onUpdate function to redraw the layout - draw default monkey picture
+        PageBase.onUpdate(dc);  // Call the parent onUpdate function to redraw the layout - draw default monkey picture
         return true;
     }
 }

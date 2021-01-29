@@ -12,16 +12,17 @@
  */
 using Toybox.WatchUi;
 
-class PageInitial extends WatchUi.View {
-    hidden var mMessage = "No connection\nto phone";
+class PageInitial extends PageBase {
+    hidden var mMessage = "";
 
     function initialize() {
-        View.initialize();
+        PageBase.initialize();
     }
 
     //! Load your resources here
     function onLayout(dc) {
-        setLayout(Rez.Layouts.ButtonLayoutDefault(dc));
+        setLayout(Rez.Layouts.LayoutPageInitial(dc));
+        return PageBase.onLayout(dc);
     }
 
     // Called when this View is brought to the foreground. Restore
@@ -38,14 +39,16 @@ class PageInitial extends WatchUi.View {
 
     // Update the view
     function onUpdate(dc) {
-        if (!System.getDeviceSettings().phoneConnected) {
-            dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-            dc.clear();
-            dc.drawText(dc.getWidth()/2, dc.getHeight()/2, Graphics.FONT_MEDIUM, mMessage, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
-        }
-        else {
-            View.onUpdate(dc);  // Call the parent onUpdate function to redraw the layout - draw default monkey picture
-        }
+        // if (!System.getDeviceSettings().phoneConnected) {
+        //     dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        //     dc.clear();
+        //     dc.drawText(dc.getWidth()/2, dc.getHeight()/2, Graphics.FONT_MEDIUM, mMessage, Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        // }
+        // else {
+        //     PageBase.onUpdate(dc);
+        // }
+
+        PageBase.onUpdate(dc);
         return true;
     }
 
