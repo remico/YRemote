@@ -16,6 +16,7 @@ using Toybox.Timer;
 class Popup extends WatchUi.View {
     private var mTimer = new Timer.Timer();
     private var mText;
+    private var notifyClose;
 
     function initialize(text) {
         self.mText = text;
@@ -24,17 +25,23 @@ class Popup extends WatchUi.View {
 
     function onLayout(dc) {
         var layout = Rez.Layouts.FullScreenPopup(dc);
-        layout[0].setText(self.mText);
         setLayout(layout);
         return View.onLayout(dc);
     }
 
     function onHide() {
         self.mTimer.stop();
+
+        if (self.notifyClose != null) {
+            self.notifyClose.invoke();
+        }
+
         return true;
     }
 
     function onShow() {
+        var textArea = findDrawableById("PopupTextArea");
+        textArea.setText(self.mText);
         self.mTimer.start(method(:close), 2000, false);
         return true;
     }
@@ -46,5 +53,14 @@ class Popup extends WatchUi.View {
     function close() {
         WatchUi.popView(WatchUi.SLIDE_BLINK);
         self.mTimer.stop();
+    }
+
+    function openWithText(text) {
+        self.mText = text;
+        open();
+    }
+
+    function subscribeToClose(callback) {
+        self.notifyClose = callback;
     }
 }
