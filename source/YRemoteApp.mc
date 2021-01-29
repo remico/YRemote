@@ -30,7 +30,7 @@ class YRemoteApp extends Application.AppBase {
     // Return the initial view of your application here
     function getInitialView() {
         var view = new PageInitial();
-        return [ view, new DelegateRecording(view.method(:showResponse)) ];
+        return [ view, new DelegateRecording(view.method(:_onTargetResponse)) ];
     }
 
 }

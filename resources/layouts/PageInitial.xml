@@ -1,14 +1,14 @@
 <layout id="LayoutPageInitial">
     <button x="40" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onStopRecording">
-        <state id="stateDefault" bitmap="@Drawables.StopButtonDefault" />
-        <state id="stateHighlighted" bitmap="@Drawables.StopButtonPressed" />
-        <state id="stateSelected" bitmap="@Drawables.PlayButtonPressed" />
+        <state id="stateDefault" bitmap="@Drawables.RecStopButtonDefault" />
+        <state id="stateHighlighted" bitmap="@Drawables.RecStopButtonPressed" />
+        <state id="stateSelected" bitmap="@Drawables.RecStopButtonPressed" />
         <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
     </button>
     <button x="136" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onStartRecording">
-        <state id="stateDefault" bitmap="@Drawables.PlayButtonDefault" />
-        <state id="stateHighlighted" bitmap="@Drawables.PlayButtonPressed" />
-        <state id="stateSelected" bitmap="@Drawables.PlayButtonPressed" />
+        <state id="stateDefault" bitmap="@Drawables.RecStartButtonDefault" />
+        <state id="stateHighlighted" bitmap="@Drawables.RecStartButtonPressed" />
+        <state id="stateSelected" bitmap="@Drawables.RecStartButtonPressed" />
         <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
     </button>
 </layout>

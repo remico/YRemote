@@ -1,35 +1,37 @@
 <drawables>
+    <!-- launcher -->
     <bitmap id="LauncherIcon" filename="launcher_icon.png" dithering="none" >
         <palette disableTransparency="false">
             <color>FFFFFF</color>
         </palette>
     </bitmap>
-    <bitmap id="PlayButtonDefault" filename="play_w.png" dithering="none" >
+    <!-- buttons -->
+    <bitmap id="RecStartButtonDefault" filename="play_w.png" dithering="none" >
         <palette disableTransparency="false">
             <color>FFFFFF</color>
         </palette>
     </bitmap>
-    <bitmap id="PlayButtonPressed" filename="play_pressed.png" dithering="none" >
+    <bitmap id="RecStartButtonPressed" filename="play_pressed.png" dithering="none" >
         <palette disableTransparency="false">
             <color>00FF00</color>
         </palette>
     </bitmap>
-    <bitmap id="ReplayButtonDefault" filename="replay_w.png" dithering="none" >
+    <bitmap id="RecRestartButtonDefault" filename="replay_w.png" dithering="none" >
         <palette disableTransparency="false">
             <color>FFFFFF</color>
         </palette>
     </bitmap>
-    <bitmap id="ReplayButtonPressed" filename="replay_pressed.png" dithering="none" >
+    <bitmap id="RecRestartButtonPressed" filename="replay_pressed.png" dithering="none" >
         <palette disableTransparency="false">
             <color>00FF00</color>
         </palette>
     </bitmap>
-    <bitmap id="StopButtonDefault" filename="stop_w.png" dithering="none" >
+    <bitmap id="RecStopButtonDefault" filename="stop_w.png" dithering="none" >
         <palette disableTransparency="false">
             <color>FFFFFF</color>
         </palette>
     </bitmap>
-    <bitmap id="StopButtonPressed" filename="stop_pressed.png" dithering="none" >
+    <bitmap id="RecStopButtonPressed" filename="stop_pressed.png" dithering="none" >
         <palette disableTransparency="false">
             <color>00FF00</color>
         </palette>
