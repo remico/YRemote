@@ -41,7 +41,7 @@ class IRemoteTarget {
         Util.log("=> " + self.mTargetName + "::makeRequest2(" + command + ") ...");
 
         if (!System.getDeviceSettings().phoneConnected) {
-            Util.log("EE: phone disconnected");
+            self.mWebCallback.invoke($.Y_ERROR_NO_CONNECTION);
             return;
         }
 

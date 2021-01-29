@@ -37,7 +37,7 @@ class PageRecording extends PageBase {
 
     // Update the view
     function onUpdate(dc) {
-        PageBase.onUpdate(dc);  // Call the parent onUpdate function to redraw the layout - draw default monkey picture
+        PageBase.onUpdate(dc);
         return true;
     }
 }

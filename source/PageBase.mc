@@ -24,10 +24,10 @@ class PageBase extends WatchUi.View {
         if (!System.getDeviceSettings().phoneConnected) {
             self.mLayout = Rez.Layouts.FullScreenPopup(dc);
 
-            var popup = self.mLayout[0];
-            var text = WatchUi.loadResource(Rez.Strings.AlertNoConnection);
+            var textArea = self.mLayout[0];
+            var text = loadResource(Rez.Strings.AlertNoConnection);
 
-            popup.setText(text);
+            textArea.setText(text);
         }
 
         View.setLayout(self.mLayout);
@@ -50,11 +50,13 @@ class PageBase extends WatchUi.View {
     function _onTargetResponse(args) {
         var message = "";
 
+        // remote target error
         if (args instanceof Lang.String) {
             self.mResponseQueue.showMessage(args);
             message = args;
         }
-        else if (args instanceof Dictionary) {
+        // remote target response
+        else if (args instanceof Lang.Dictionary) {
             var keys = args.keys();
             for( var i = 0; i < keys.size(); i++ ) {
                 message += Lang.format("$1$: $2$\n", [ keys[i], args[keys[i]] ]);
@@ -62,6 +64,15 @@ class PageBase extends WatchUi.View {
 
             if (args.hasKey("rval") && args["rval"] != 0) {
                 self.mResponseQueue.showMessage(message);
+            }
+        }
+        // application errors
+        else if (args instanceof Lang.Number) {
+            switch (args) {
+                case $.Y_ERROR_NO_CONNECTION:
+                    message = loadResource(Rez.Strings.AlertNoConnection);
+                    self.mResponseQueue.showMessage(message);
+                    break;
             }
         }
 
