@@ -27,7 +27,7 @@ def error(start_response, http_status, msg, param=None):
 
     start_response(format_status(http_status), headers)
     body = [
-        f"{{'param': {param}, 'error': {msg}}}".encode()
+        f'{{"param": "{param}", "error": "{msg}"}}'.encode()
     ]
 
     return body
