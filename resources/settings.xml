@@ -3,8 +3,11 @@
 <!-- PROPERTIES -->
 <properties>
 
+<property id="CAM_ENABLED" type="boolean">true</property>
 <property id="CAM_URL" type="string">https://192.168.0.105</property>
 <property id="CAM_PORT" type="number">7878</property>
+
+<property id="DAW_ENABLED" type="boolean">true</property>
 <property id="DAW_URL" type="string">https://192.168.0.105</property>
 <property id="DAW_PORT" type="number">7879</property>
 
@@ -13,12 +16,20 @@
 <!-- APP SETTINGS -->
 <settings>
 
+<setting propertyKey="@Properties.CAM_ENABLED" title="@Strings.CameraEnabled">
+<settingConfig type="boolean" />
+</setting>
+
 <setting propertyKey="@Properties.CAM_URL" title="@Strings.CameraUrl">
 <settingConfig type="url" />
 </setting>
 
 <setting propertyKey="@Properties.CAM_PORT" title="@Strings.CameraPort">
 <settingConfig type="numeric" />
+</setting>
+
+<setting propertyKey="@Properties.DAW_ENABLED" title="@Strings.DawEnabled">
+<settingConfig type="boolean" />
 </setting>
 
 <setting propertyKey="@Properties.DAW_URL" title="@Strings.DawUrl">

@@ -13,6 +13,7 @@
 using Toybox.Application;
 
 class YRemoteApp extends Application.AppBase {
+    private var mResponseQueue = new PopupQueue();
 
     function initialize() {
         AppBase.initialize();
@@ -30,7 +31,39 @@ class YRemoteApp extends Application.AppBase {
     // Return the initial view of your application here
     function getInitialView() {
         var view = new PageInitial();
-        return [ view, new DelegateRecording(view.method(:_onTargetResponse)) ];
+        var delegate = new DelegateRecording(method(:_onTargetResponse));
+        return [view, delegate];
     }
 
+    function _onTargetResponse(args) {
+        var message = "";
+
+        // remote target error
+        if (args instanceof Lang.String) {
+            self.mResponseQueue.showMessage(args);
+            message = args;
+        }
+        // remote target response
+        else if (args instanceof Lang.Dictionary) {
+            var keys = args.keys();
+            for( var i = 0; i < keys.size(); i++ ) {
+                message += Lang.format("$1$: $2$\n", [ keys[i], args[keys[i]] ]);
+            }
+
+            if (args.hasKey("rval") && args["rval"] != 0) {
+                self.mResponseQueue.showMessage(message);
+            }
+        }
+        // application errors
+        else if (args instanceof Lang.Number) {
+            switch (args) {
+                case $.Y_ERROR_NO_CONNECTION:
+                    message = loadResource(Rez.Strings.AlertNoConnection);
+                    self.mResponseQueue.showMessage(message);
+                    break;
+            }
+        }
+
+        Util.log(message);
+    }
 }

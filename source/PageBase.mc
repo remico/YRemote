@@ -14,7 +14,6 @@ using Toybox.WatchUi;
 
 class PageBase extends WatchUi.View {
     private var mLayout;
-    private var mResponseQueue = new PopupQueue();
 
     function initialize() {
         View.initialize();
@@ -45,37 +44,5 @@ class PageBase extends WatchUi.View {
 
         View.onUpdate(dc);
         return true;
-    }
-
-    function _onTargetResponse(args) {
-        var message = "";
-
-        // remote target error
-        if (args instanceof Lang.String) {
-            self.mResponseQueue.showMessage(args);
-            message = args;
-        }
-        // remote target response
-        else if (args instanceof Lang.Dictionary) {
-            var keys = args.keys();
-            for( var i = 0; i < keys.size(); i++ ) {
-                message += Lang.format("$1$: $2$\n", [ keys[i], args[keys[i]] ]);
-            }
-
-            if (args.hasKey("rval") && args["rval"] != 0) {
-                self.mResponseQueue.showMessage(message);
-            }
-        }
-        // application errors
-        else if (args instanceof Lang.Number) {
-            switch (args) {
-                case $.Y_ERROR_NO_CONNECTION:
-                    message = loadResource(Rez.Strings.AlertNoConnection);
-                    self.mResponseQueue.showMessage(message);
-                    break;
-            }
-        }
-
-        Util.log(message);
     }
 }

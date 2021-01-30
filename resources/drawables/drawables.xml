@@ -5,6 +5,17 @@
             <color>FFFFFF</color>
         </palette>
     </bitmap>
+    <!-- icons -->
+    <bitmap id="CameraIcon" filename="camera_blue.png" dithering="none" >
+        <palette disableTransparency="false">
+            <color>00AAFF</color>
+        </palette>
+    </bitmap>
+    <bitmap id="DawIcon" filename="daw_blue.png" dithering="none" >
+        <palette disableTransparency="false">
+            <color>00AAFF</color>
+        </palette>
+    </bitmap>
     <!-- buttons -->
     <bitmap id="RecStartButtonDefault" filename="play_w.png" dithering="none" >
         <palette disableTransparency="false">

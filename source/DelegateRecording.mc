@@ -10,7 +10,7 @@
  *
  * Copyright (c) 2021 remico
  */
-using Toybox.Application;
+using Toybox.Application.Properties;
 using Toybox.Lang;
 using Toybox.Timer;
 using Toybox.WatchUi;
@@ -23,10 +23,8 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
     function initialize(notify) {
         BehaviorDelegate.initialize();
 
-        var YI_URL = Application.Properties.getValue("CAM_URL") + ":"
-                   + Application.Properties.getValue("CAM_PORT");
-        var DAW_URL = Application.Properties.getValue("DAW_URL") + ":"
-                    + Application.Properties.getValue("DAW_PORT");
+        var YI_URL = Properties.getValue($.SETTINGS_CAM_URL) + ":" + Properties.getValue($.SETTINGS_CAM_PORT);
+        var DAW_URL = Properties.getValue($.SETTINGS_DAW_URL) + ":" + Properties.getValue($.SETTINGS_DAW_PORT);
 
         self.mYiCamera = new YiCamera(YI_URL, notify);
         self.mDaw = new ReaperDaw(DAW_URL, notify);
@@ -48,6 +46,7 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
         menu.addItem("Authenticate?", :authenticate, method(:onMenuAuthenticate));
         menu.addItem("Start Live", :liveStart, method(:onMenuLiveStart));
         menu.addItem("Stop Live", :liveStop, method(:onMenuLiveStop));
+        menu.addItem("Settings", :settings, method(:onMenuSettings));
 
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_IMMEDIATE);
         return true;
@@ -63,23 +62,42 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
 
     function _onAuthConfirmed() {
         Util.feedback(1);
-        self.mYiCamera.authenticate();
+        if (cameraEnabled()) {
+            self.mYiCamera.authenticate();
+        }
     }
 
     function onMenuLiveStart() {
         Util.feedback(1);
-        self.mYiCamera.liveStart();
+        if (cameraEnabled()) {
+            self.mYiCamera.liveStart();
+        }
     }
 
     function onMenuLiveStop() {
         Util.feedback(1);
-        self.mYiCamera.liveStop();
+        if (cameraEnabled()) {
+            self.mYiCamera.liveStop();
+        }
+    }
+
+    function onMenuSettings() {
+        Util.feedback(1);
+        var menu = new MenuSettings();
+        var delegate = new MenuSettingsDelegate(menu);
+        WatchUi.pushView(menu, delegate, WatchUi.SLIDE_BLINK);
     }
     // ------------ menu end -----------
 
     function onStartRecording() {
         Util.feedback(1);
-        self.mYiCamera.recStart(method(:_StartRecordingOk));
+
+        if (cameraEnabled()) {
+            self.mYiCamera.recStart(method(:_StartRecordingOk));
+        }
+        else if (dawEnabled()) {
+            self.mDaw.recStart();
+        }
     }
 
     function _StartRecordingOk(d) {
@@ -90,7 +108,13 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
 
     function onRestartRecording() {
         Util.feedback(1);
-        self.mYiCamera.recRestart(method(:_onRestartRecordingOk));
+
+        if (cameraEnabled()) {
+            self.mYiCamera.recRestart(method(:_onRestartRecordingOk));
+        }
+        else if (dawEnabled()) {
+            self.mDaw.recRestart();
+        }
     }
 
     function _onRestartRecordingOk(d) {
@@ -99,7 +123,13 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
 
     function onStopRecording() {
         Util.feedback(2);
-        self.mYiCamera.recStop(method(:_onStopRecordingOk));
+
+        if (cameraEnabled()) {
+            self.mYiCamera.recStop(method(:_onStopRecordingOk));
+        }
+        else if (dawEnabled()) {
+            self.mDaw.recStop();
+        }
     }
 
     function _onStopRecordingOk(d) {
@@ -114,5 +144,13 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
 
     function _onStopTimeoutOk() {
         // self.mYiCamera.liveStop();
+    }
+
+    private function cameraEnabled() {
+        return Properties.getValue($.SETTINGS_CAM_ENABLED);
+    }
+
+    private function dawEnabled() {
+        return Properties.getValue($.SETTINGS_DAW_ENABLED);
     }
 }
