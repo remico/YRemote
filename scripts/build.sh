@@ -7,6 +7,10 @@ DKEY=${HOME}/Downloads/garmin_developer_key
 DEVICE=vivoactive3m
 
 workspaceFolder="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/.."
+
+# 2nd arg - ${relativeFileDirname}
+# workspaceFolder=$(dirname $(find ${workspaceFolder} -name manifest.xml) | grep ${2%%/*})
+
 PRJ_NAME=$(cat ${workspaceFolder}/.project | grep -m 1 -oP "(?<=<name>).*(?=</name>)")
 
 
