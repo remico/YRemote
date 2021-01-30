@@ -47,7 +47,7 @@ class Popup extends WatchUi.View {
     }
 
     function open() {
-        WatchUi.pushView(self, new WatchUi.BehaviorDelegate(), WatchUi.SLIDE_BLINK);
+        WatchUi.pushView(self, new PopupDelegate(self), WatchUi.SLIDE_BLINK);
     }
 
     function close() {
@@ -62,5 +62,20 @@ class Popup extends WatchUi.View {
 
     function subscribeToClose(callback) {
         self.notifyClose = callback;
+    }
+}
+
+
+class PopupDelegate extends WatchUi.BehaviorDelegate {
+    private var mView;
+
+    function initialize(view) {
+        self.mView = view;
+        BehaviorDelegate.initialize();
+    }
+
+    function onBack() {
+        self.mView.close();
+        return true;
     }
 }
