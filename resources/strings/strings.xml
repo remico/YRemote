@@ -12,6 +12,8 @@
     <!-- constants -->
     <string id="TargetNameDaw">DAW</string>
     <string id="TargetNameCamera">CAM</string>
+    <!-- custom IDs -->
+    <string id="IDRecButton">RecButton</string>
     <!-- UI -->
     <!-- Menu Settings -->
     <string id="MenuHeaderSettings">Settings</string>

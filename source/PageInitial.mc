@@ -37,8 +37,13 @@ class PageInitial extends PageBase {
 
     // Update the view
     function onUpdate(dc) {
+        updateRecButton();
         PageBase.onUpdate(dc);
         return true;
     }
 
+    function updateRecButton() {
+        var recButton = findDrawableById( loadResource(Rez.Strings.IDRecButton) );
+        recButton.activate(AppState.isRecording());
+    }
 }

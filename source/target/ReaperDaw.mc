@@ -26,6 +26,10 @@ class ReaperDaw extends IRemoteTarget {
         IRemoteTarget.initialize(Rez.Strings.TargetNameDaw, url, webCallback);
     }
 
+    function isEnabled() {
+        return AppSettings.DawEnabled.get();
+    }
+
     function recStart() {
         makeRequest2(REA_REC_START, method(:_onRecStartOk));
     }

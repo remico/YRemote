@@ -47,11 +47,11 @@ class Popup extends WatchUi.View {
     }
 
     function open() {
-        WatchUi.pushView(self, new PopupDelegate(self), WatchUi.SLIDE_BLINK);
+        WatchUi.pushView(self, new PopupDelegate(self), WatchUi.SLIDE_DOWN);
     }
 
     function close() {
-        WatchUi.popView(WatchUi.SLIDE_BLINK);
+        WatchUi.popView(WatchUi.SLIDE_UP);
         self.mTimer.stop();
     }
 

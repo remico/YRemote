@@ -52,6 +52,10 @@ class YiCamera extends IRemoteTarget {
         IRemoteTarget.initialize(Rez.Strings.TargetNameCamera, url, webCallback);
     }
 
+    function isEnabled() {
+        return AppSettings.CamEnabled.get();
+    }
+
     private function getYiToken() {
         return Application.Storage.getValue(YI_TOKEN);
     }

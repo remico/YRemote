@@ -30,6 +30,10 @@ class IRemoteTarget {
         }
     }
 
+    function isEnabled() {
+        return true;
+    }
+
     function targetUrl() {
         return self.mTargetUrl;
     }
@@ -40,6 +44,10 @@ class IRemoteTarget {
 
     // params - dict, http request data
     function makeRequest2(url, command, httpMethod, params, userContext) {
+        if (!isEnabled()) {
+            return;
+        }
+
         Util.log("=> " + self.mTargetName + "::makeRequest2(" + command + ") ...");
 
         if (!System.getDeviceSettings().phoneConnected) {
