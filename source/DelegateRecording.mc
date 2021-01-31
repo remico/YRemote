@@ -42,19 +42,20 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
         var menu = new CBMenu();
         var delegate = new CBMenuDelegate(menu);
 
-        menu.setTitle("Yi camera");
-        menu.addItem("Authenticate?", :authenticate, method(:onMenuAuthenticate));
-        menu.addItem("Start Live", :liveStart, method(:onMenuLiveStart));
-        menu.addItem("Stop Live", :liveStop, method(:onMenuLiveStop));
-        menu.addItem("Settings", :settings, method(:onMenuSettings));
+        menu.setTitle(Rez.Strings.MenuMain);
+        menu.addItem(Rez.Strings.MenuItemAuthConfirmationRequest, :authenticate, method(:onMenuAuthenticate));
+        menu.addItem(Rez.Strings.MenuItemLiveStart, :liveStart, method(:onMenuLiveStart));
+        menu.addItem(Rez.Strings.MenuItemLiveStop, :liveStop, method(:onMenuLiveStop));
+        menu.addItem(Rez.Strings.MenuItemSettings, :settings, method(:onMenuSettings));
 
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_IMMEDIATE);
         return true;
     }
 
     function onMenuAuthenticate() {
+        var text = loadResource(Rez.Strings.MenuItemAuthConfirmationRequest);
         WatchUi.switchToView(
-            new WatchUi.Confirmation("Authenticate?"),
+            new WatchUi.Confirmation(text),
             new YesDelegate(method(:_onAuthConfirmed)),
             WatchUi.SLIDE_IMMEDIATE
         );

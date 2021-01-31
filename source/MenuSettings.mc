@@ -15,7 +15,7 @@ using Toybox.WatchUi;
 
 class MenuSettings extends CBMenu2 {
     function initialize() {
-        CBMenu2.initialize("Settings");
+        CBMenu2.initialize(Rez.Strings.MenuHeaderSettings);
     }
 }
 
@@ -28,8 +28,8 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
 
     private function fillMenu(menu) {
         var itemCamera = new WatchUi.ToggleMenuItem(
-            "Camera",
-            "Yi 4K+",
+            Rez.Strings.MenuItemCamera,
+            Rez.Strings.MenuItemCameraSub,
             :itemCamera,
             Properties.getValue($.SETTINGS_CAM_ENABLED),
             {}
@@ -37,8 +37,8 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
         menu.addItem(itemCamera, :itemCamera, method(:_onItemCamera));
 
         var itemDaw = new WatchUi.ToggleMenuItem(
-            "DAW",
-            "Reaper",
+            Rez.Strings.MenuItemDaw,
+            Rez.Strings.MenuItemDawSub,
             :itemDaw,
             Properties.getValue($.SETTINGS_DAW_ENABLED),
             {}

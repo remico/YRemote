@@ -23,7 +23,7 @@ class ReaperDaw extends IRemoteTarget {
     }
 
     function initialize(url, webCallback) {
-        IRemoteTarget.initialize("DAW", url, webCallback);
+        IRemoteTarget.initialize(Rez.Strings.TargetNameDaw, url, webCallback);
     }
 
     function recStart() {

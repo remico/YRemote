@@ -25,6 +25,8 @@ class IRemoteTarget {
 
         if (name instanceof Lang.String) {
             self.mTargetName = name;
+        } else if (name instanceof Lang.Number) {
+            self.mTargetName = WatchUi.loadResource(name);
         }
     }
 

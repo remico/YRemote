@@ -49,7 +49,7 @@ class YiCamera extends IRemoteTarget {
     }
 
     function initialize(url, webCallback) {
-        IRemoteTarget.initialize("CAM", url, webCallback);
+        IRemoteTarget.initialize(Rez.Strings.TargetNameCamera, url, webCallback);
     }
 
     private function getYiToken() {

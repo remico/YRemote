@@ -1,6 +1,6 @@
 <strings>
     <string id="AppName">YRemote</string>
-    <!-- settings -->
+    <!-- app settings -->
     <string id="CameraEnabled">CAM enabled</string>
     <string id="CameraUrl">CAM url</string>
     <string id="CameraPort">CAM port</string>
@@ -9,4 +9,20 @@
     <string id="DawPort">DAW port</string>
     <!-- alerts -->
     <string id="AlertNoConnection">No connection to phone</string>
+    <!-- constants -->
+    <string id="TargetNameDaw">DAW</string>
+    <string id="TargetNameCamera">CAM</string>
+    <!-- UI -->
+    <!-- Menu Settings -->
+    <string id="MenuHeaderSettings">Settings</string>
+    <string id="MenuItemCamera">Camera</string>
+    <string id="MenuItemCameraSub">Yi 4K+</string>
+    <string id="MenuItemDaw">Camera</string>
+    <string id="MenuItemDawSub">Yi 4K+</string>
+    <!-- View Recording -->
+    <string id="MenuMain">Yi camera</string>
+    <string id="MenuItemAuthConfirmationRequest">Authenticate?</string>
+    <string id="MenuItemLiveStart">Start Live</string>
+    <string id="MenuItemLiveStop">Stop Live</string>
+    <string id="MenuItemSettings">Settings</string>
 </strings>
