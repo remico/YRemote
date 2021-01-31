@@ -23,11 +23,11 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
     function initialize(notify) {
         BehaviorDelegate.initialize();
 
-        var YI_URL = Properties.getValue($.SETTINGS_CAM_URL) + ":" + Properties.getValue($.SETTINGS_CAM_PORT);
-        var DAW_URL = Properties.getValue($.SETTINGS_DAW_URL) + ":" + Properties.getValue($.SETTINGS_DAW_PORT);
+        var cam_url = AppSettings.CamUrl.get() + ":" + AppSettings.CamPort.get();
+        var daw_url = AppSettings.DawUrl.get() + ":" + AppSettings.DawPort.get();
 
-        self.mYiCamera = new YiCamera(YI_URL, notify);
-        self.mDaw = new ReaperDaw(DAW_URL, notify);
+        self.mYiCamera = new YiCamera(cam_url, notify);
+        self.mDaw = new ReaperDaw(daw_url, notify);
     }
 
     function onKeyPressed(evt) {
@@ -148,10 +148,10 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
     }
 
     private function cameraEnabled() {
-        return Properties.getValue($.SETTINGS_CAM_ENABLED);
+        return AppSettings.CamEnabled.get();
     }
 
     private function dawEnabled() {
-        return Properties.getValue($.SETTINGS_DAW_ENABLED);
+        return AppSettings.DawEnabled.get();
     }
 }

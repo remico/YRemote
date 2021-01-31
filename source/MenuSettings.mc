@@ -31,7 +31,7 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
             Rez.Strings.MenuItemCamera,
             Rez.Strings.MenuItemCameraSub,
             :itemCamera,
-            Properties.getValue($.SETTINGS_CAM_ENABLED),
+            AppSettings.CamEnabled.get(),
             {}
         );
         menu.addItem(itemCamera, :itemCamera, method(:_onItemCamera));
@@ -40,7 +40,7 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
             Rez.Strings.MenuItemDaw,
             Rez.Strings.MenuItemDawSub,
             :itemDaw,
-            Properties.getValue($.SETTINGS_DAW_ENABLED),
+            AppSettings.DawEnabled.get(),
             {}
         );
         menu.addItem(itemDaw, :itemDaw, method(:_onItemDaw));
@@ -49,12 +49,12 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
     function _onItemCamera() {
         var idx = self.mMenu.findItemById(:itemCamera);
         var item = self.mMenu.getItem(idx);
-        Properties.setValue($.SETTINGS_CAM_ENABLED, item.isEnabled());
+        AppSettings.CamEnabled.set(item.isEnabled());
     }
 
     function _onItemDaw() {
         var idx = self.mMenu.findItemById(:itemDaw);
         var item = self.mMenu.getItem(idx);
-        Properties.setValue($.SETTINGS_DAW_ENABLED, item.isEnabled());
+        AppSettings.DawEnabled.set(item.isEnabled());
     }
 }
