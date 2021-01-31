@@ -37,43 +37,16 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    // ----------- menu begin ----------
+    // ----------- system menu begin ----------
     function onMenu() {
         var menu = new CBMenu();
         var delegate = new CBMenuDelegate(menu);
 
-        menu.setTitle(Rez.Strings.MenuMain);
-        menu.addItem(Rez.Strings.MenuItemAuthConfirmationRequest, :authenticate, method(:onMenuAuthenticate));
-        menu.addItem(Rez.Strings.MenuItemLiveStart, :liveStart, method(:onMenuLiveStart));
-        menu.addItem(Rez.Strings.MenuItemLiveStop, :liveStop, method(:onMenuLiveStop));
+        menu.setTitle(Rez.Strings.MenuHeaderMain);
         menu.addItem(Rez.Strings.MenuItemSettings, :settings, method(:onMenuSettings));
 
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_IMMEDIATE);
         return true;
-    }
-
-    function onMenuAuthenticate() {
-        var text = loadResource(Rez.Strings.MenuItemAuthConfirmationRequest);
-        WatchUi.switchToView(
-            new WatchUi.Confirmation(text),
-            new YesDelegate(method(:_onAuthConfirmed)),
-            WatchUi.SLIDE_IMMEDIATE
-        );
-    }
-
-    function _onAuthConfirmed() {
-        Util.feedback(1);
-        self.mYiCamera.authenticate();
-    }
-
-    function onMenuLiveStart() {
-        Util.feedback(1);
-        self.mYiCamera.liveStart();
-    }
-
-    function onMenuLiveStop() {
-        Util.feedback(1);
-        self.mYiCamera.liveStop();
     }
 
     function onMenuSettings() {
@@ -82,7 +55,7 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
         var delegate = new MenuSettingsDelegate(menu);
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_BLINK);
     }
-    // ------------ menu end -----------
+    // ------------ system menu end -----------
 
     function startRecording() {
         Util.feedback(1);
@@ -138,6 +111,10 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
 
     function onCamera() {
         Util.feedback(1);
+
+        var menu = new MenuCamera(self.mYiCamera);
+        var delegate = new CBMenuDelegate(menu);
+        WatchUi.pushView(menu, delegate, WatchUi.SLIDE_IMMEDIATE);
     }
 
     function onDaw() {

@@ -1,3 +1,0 @@
-[submodule "ambarpc"]
-	path = source/companion-app/ambarpc
-	url = https://github.com/remico/ambarpc.git

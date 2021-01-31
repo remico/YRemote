@@ -21,8 +21,10 @@
     <string id="MenuItemCameraSub">Yi 4K+</string>
     <string id="MenuItemDaw">DAW</string>
     <string id="MenuItemDawSub">Reaper</string>
+    <!-- View Camera -->
+    <string id="MenuHeaderCamera">Yi camera</string>
     <!-- View Recording -->
-    <string id="MenuMain">Yi camera</string>
+    <string id="MenuHeaderMain">System</string>
     <string id="MenuItemAuthConfirmationRequest">Authenticate?</string>
     <string id="MenuItemLiveStart">Start Live</string>
     <string id="MenuItemLiveStop">Stop Live</string>
