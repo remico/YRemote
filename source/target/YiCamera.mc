@@ -11,6 +11,7 @@
  * Copyright (c) 2021 remico
  */
 using Toybox.Communications;
+using Toybox.Lang;
 using Toybox.Timer;
 using Toybox.WatchUi;
 
@@ -31,6 +32,25 @@ class YiCameraCallback extends ConditionalMethod {
 
     static function deferredMethod(aCallback, arg, delay) {
         return ConditionalMethod.deferredMethod(aCallback, arg, delay, self.mConditions);
+    }
+}
+
+
+class UserContextRemoveMedia {
+    private var mCallback;
+    private var mCallbackArgument;
+
+    function initialize(aCallback, arg) {
+        self.mCallback = aCallback;
+        self.mCallbackArgument = arg;
+    }
+
+    function invoke(d) {
+        if (d.hasKey("rval") && d["rval"] == 0) {  // on 'OK' response from the camera
+            var timer = new TimerEx();
+            var mediaPath = d["param"];
+            timer.start(self.mCallback, [mediaPath, self.mCallbackArgument], 0, false);
+        }
     }
 }
 
@@ -86,15 +106,19 @@ class YiCamera extends IRemoteTarget {
     }
 
     function recRestart(callback) {
-        makeRequest2(YI_CMD_REC_STOP, YiCameraCallback.deferredMethod(method(:recStart), callback, 2000));
+        makeRequest2(YI_CMD_REC_STOP, new UserContextRemoveMedia(method(:removeMedia), callback));
     }
 
     function recStop(callback) {
         makeRequest2(YI_CMD_REC_STOP, YiCameraCallback.method(callback, null));
     }
 
-    function removeMedia(path) {
-        // makeRequest(YI_CMD_MEDIA_REMOVE);  TODO: pass a path to makeRequest()
+    function removeMedia(path, callback) {
+        makeRequest2Param(
+            YI_CMD_MEDIA_REMOVE,
+            YiCameraCallback.method(method(:recStart), callback),
+            {"param" => path}
+        );
     }
 
     function capturePhoto() {
@@ -106,10 +130,22 @@ class YiCamera extends IRemoteTarget {
     }
 
     function makeRequest2(command, userContext) {
+        makeRequest2Param(command, userContext, null);
+    }
+
+    function makeRequest2Param(command, userContext, extraParams) {
         var params = {
             "msg_id" => command,
             "token" => self.getYiToken()
         };
+
+        // append extra parameters
+        if (extraParams instanceof Lang.Dictionary) {
+            var keys = extraParams.keys();
+            for (var i = 0; i < extraParams.size(); ++i) {
+                params.put(keys[i], extraParams.get(keys[i]));
+            }
+        }
 
         IRemoteTarget.makeRequest2(
             targetUrl(),

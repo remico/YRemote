@@ -21,7 +21,7 @@ class ConditionalMethod extends Lang.Method {
     // aClass - a type name
     // aMethod - Lang.Symbol
     function initialize(aClass, aMethod, invokeConditions) {
-        if (! (invokeConditions instanceof Lang.Dictionary)) {
+        if (!(invokeConditions instanceof Lang.Dictionary)) {
             throw new Toybox.Lang.UnexpectedTypeException("`invokeConditions` must be of Lang.Dictionary type", null, null);
         }
 
@@ -34,7 +34,7 @@ class ConditionalMethod extends Lang.Method {
         Lang.Method.initialize(ConditionalMethod, :invoke);
     }
 
-    function _canInvoke(data) {
+    function _meetConditions(data) {
         var valid = true;
 
         if (data instanceof Lang.Dictionary) {
@@ -70,13 +70,17 @@ class ConditionalMethod extends Lang.Method {
     }
 
     function invoke(data) {
-        if (self.mMethod != null && _canInvoke(data)) {
+        if (self.mMethod != null && _meetConditions(data)) {
 
             var argument = self.mMethodArgument != null ? self.mMethodArgument : data;
 
             if (self.mDelay > 0) {  // invoke deferred
+                // make sure passing an array of arguments
+                if (!(argument instanceof Lang.Array)) {
+                    argument = [argument];
+                }
                 var timer = new TimerEx();
-                timer.start(self.mMethod, [argument], self.mDelay, false);
+                timer.start(self.mMethod, argument, self.mDelay, false);
             } else {
                 return self.mMethod.invoke(argument);
             }

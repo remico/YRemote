@@ -19,6 +19,7 @@ import socket
 __all__ = ['YiCamera']
 
 TCP_TIMEOUT = 5  # sec
+YI_CMD_REC_STOP = 514
 
 
 class YiCamera:
@@ -55,7 +56,14 @@ class YiCamera:
 
     def _is_response(self, rx_json):
         try:
-            return self.m_msg_id != 0 and self.m_msg_id == rx_json['msg_id']
+            if self.m_msg_id == YI_CMD_REC_STOP:
+                # FIXME: workaround for testing: move modifying business logic somewhere else
+                if rx_json["type"] == "video_record_complete":
+                    rx_json["msg_id"] = YI_CMD_REC_STOP
+                    rx_json["rval"] = 0
+                return rx_json["type"] == "video_record_complete"
+            else:
+                return self.m_msg_id != 0 and self.m_msg_id == rx_json['msg_id']
         except Exception:
             return False
 

@@ -68,17 +68,17 @@ class IRemoteTarget {
             url,
             params,
             options,
-            userContext ? method(:_onReceiveCntx) : method(:_onReceive)
+            userContext != null ? method(:_onReceiveCntx) : method(:_onReceive)
         );
     }
 
     function _onReceive(responseCode, data) {
-        _onReceiveCntx(responseCode, data, {});
+        _onReceiveCntx(responseCode, data, null);
     }
 
     function _onReceiveCntx(responseCode, data, userContext) {
         if (responseCode == 200) {
-            if (userContext instanceof Lang.Method) {
+            if (userContext != null && userContext has :invoke) {
                 userContext.invoke(data);
             }
             self.mWebCallback.invoke(data);

@@ -28,9 +28,16 @@ class TimerEx extends Timer.Timer {
     }
 
     function _wrap() {
-        switch (self.mParams.size()) {
+        var p = self.mParams;
+        switch (p.size()) {
             case 1:
-                self.mCallback.invoke(self.mParams[0]);
+                self.mCallback.invoke(p[0]);
+                break;
+            case 2:
+                self.mCallback.invoke(p[0], p[1]);
+                break;
+            case 3:
+                self.mCallback.invoke(p[0], p[1], p[2]);
                 break;
             default:
                 self.mCallback.invoke();
