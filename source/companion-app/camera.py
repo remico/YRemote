@@ -43,28 +43,28 @@ class YiCamera:
             raise
 
     def _decode(self):
-        if not self.m_rx_buffer:
-            return json.loads("{}")
+        while True:
+            if not self.m_rx_buffer:
+                return json.loads("{}")
 
-        try:
-            rx_data, end_idx = self._decoder.raw_decode(self.m_rx_buffer)
-        except ValueError as decoding_error:
-            print("EE: CAM rx buffer decoding error:", decoding_error)
-            raise
+            try:
+                rx_data, end_idx = self._decoder.raw_decode(self.m_rx_buffer)
+            except ValueError as decoding_error:
+                print("EE: CAM rx buffer decoding error:", decoding_error)
+                return json.loads("{}")
 
-        self.m_rx_buffer = self.m_rx_buffer[end_idx:]
-        return rx_data
+            self.m_rx_buffer = self.m_rx_buffer[end_idx:]
+            yield rx_data
 
     @contextmanager
     def _sock_reader(self):
         self._read_sock()
-        rx_list = []
         try:
-            while (rx_json := self._decode()):
-                rx_list.append(rx_json)
-            yield rx_list
+            yield self._decode()
         except json.decoder.JSONDecodeError:
             pass  # leave remaining (i.e. incomplete) data in buffer as is
+        finally:
+            pass  # e.g. release resources
 
     def _is_response(self, rx_json):
         try:
