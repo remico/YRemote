@@ -15,6 +15,7 @@
 import json
 import selectors
 import socket
+from contextlib import contextmanager
 
 __all__ = ['YiCamera']
 
@@ -54,6 +55,17 @@ class YiCamera:
         self.m_rx_buffer = self.m_rx_buffer[end_idx:]
         return rx_data
 
+    @contextmanager
+    def _sock_reader(self):
+        self._read_sock()
+        rx_list = []
+        try:
+            while (rx_json := self._decode()):
+                rx_list.append(rx_json)
+            yield rx_list
+        except json.decoder.JSONDecodeError:
+            pass  # leave remaining (i.e. incomplete) data in buffer as is
+
     def _is_response(self, rx_json):
         try:
             if self.m_msg_id == YI_CMD_REC_STOP:
@@ -83,30 +95,22 @@ class YiCamera:
         return self.m_sock.send(data)
 
     def read_chunk(self):
-        self._read_sock()
-
-        try:
-            while (rx_json := self._decode()):
+        with self._sock_reader() as jsons:
+            for rx_json in jsons:
                 print("II:", rx_json)
-        except json.decoder.JSONDecodeError:
-            pass  # leave remaining data in buffer as is
 
     def wait_response(self, msg_id):
         self.m_msg_id = msg_id
         response = None
 
         while True:
-            self._read_sock()
-
-            try:
-                while (rx_json := self._decode()):
+            with self._sock_reader() as jsons:
+                for rx_json in jsons:
                     if self._is_response(rx_json):
                         response = rx_json
                         self.m_msg_id = 0
                     else:
                         print("II:", rx_json)
-            except json.decoder.JSONDecodeError:
-                pass
 
             if response:
                 return response
