@@ -47,8 +47,6 @@ RUN cd ${HOME}/Downloads; \
     wget -qN https://developer.garmin.com/downloads/connect-iq/sdk-manager/connectiq-sdk-manager-linux.zip; \
     unzip connectiq-sdk-manager-linux.zip -d ${SDK_MANAGER_DIR}
 
-COPY garmin_developer_key ${HOME}/Downloads
-
 WORKDIR ${APP_ROOT}
 
 CMD \

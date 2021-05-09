@@ -1,10 +1,11 @@
 #!/bin/bash
 
+workspaceFolder="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/.."
+
 SDK=${HOME}/.Garmin/ConnectIQ/Sdks/connectiq-sdk-*/bin
-DKEY=${HOME}/Downloads/garmin_developer_key
+DKEY=${workspaceFolder}/scripts/garmin_developer_key
 DEVICE=vivoactive3m
 
-workspaceFolder="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/.."
 
 # 2nd arg - ${relativeFileDirname}
 # workspaceFolder=$(dirname $(find ${workspaceFolder} -name manifest.xml) | grep ${2%%/*})
