@@ -1,8 +1,6 @@
 #!/bin/bash
 
-SDK=${HOME}/.Garmin/ConnectIQ/Sdks/connectiq-sdk-lin-3.2.4-2021-01-05-1bf53aeed/bin
-# SDK=${HOME}/.Garmin/ConnectIQ/Sdks/connectiq-sdk-lin-3.2.3-2020-10-13-c14e609bd/bin
-SDK_VERSION=3.1.0
+SDK=${HOME}/.Garmin/ConnectIQ/Sdks/connectiq-sdk-*/bin
 DKEY=${HOME}/Downloads/garmin_developer_key
 DEVICE=vivoactive3m
 

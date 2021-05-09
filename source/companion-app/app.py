@@ -45,13 +45,13 @@ def main():
     if SECURE:
         # openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes
         httpd.socket = ssl.wrap_socket(httpd.socket,
-                                       certfile="/home/user/Dvlp/keys/yicmp.home.crt",
-                                       keyfile="/home/user/Dvlp/keys/yicmp.home.key",
+                                       certfile="/home/user/Dvlp/keys/ycmp.home.crt",
+                                       keyfile="/home/user/Dvlp/keys/ycmp.home.key",
                                        server_side=True)
 
         httpd_daw.socket = ssl.wrap_socket(httpd_daw.socket,
-                                       certfile="/home/user/Dvlp/keys/yicmp.home.crt",
-                                       keyfile="/home/user/Dvlp/keys/yicmp.home.key",
+                                       certfile="/home/user/Dvlp/keys/ycmp.home.crt",
+                                       keyfile="/home/user/Dvlp/keys/ycmp.home.key",
                                        server_side=True)
 
     selector.register(httpd, selectors.EVENT_READ, data=httpd.handle_request)

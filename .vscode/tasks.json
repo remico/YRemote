@@ -6,7 +6,7 @@
         {
             "label": "Garmin: build tasks",
             "type": "shell",
-            "command": "docker run ${config:DCKR.dvlp} --mount type=bind,src=${workspaceFolder},dst=${workspaceFolder} --rm -it connectiq ${workspaceFolder}/scripts/build.sh ${input:GarminBuildType}",
+            "command": "docker run ${config:DCKR.dvlp} --mount type=bind,src=${workspaceFolder},dst=${workspaceFolder} --rm -it connectiq:sdk ${workspaceFolder}/scripts/build.sh ${input:GarminBuildType}",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
@@ -17,7 +17,7 @@
             "label": "Garmin: eclipse",
             "type": "docker-run",
             "dockerRun": {
-                "image": "recordingcontrol",
+                "image": "connectiq:eclipse",
                 // "command": "eclipse",
                 "customOptions": "${config:DCKR.dvlp}",
                 "volumes": [
