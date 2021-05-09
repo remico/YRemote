@@ -14,15 +14,15 @@ PRJ_NAME=$(cat ${workspaceFolder}/.project | grep -m 1 -oP "(?<=<name>).*(?=</na
 
 
 if [[ $1 == "release" ]]; then
-    BUILD_DIR=build
+    BUILD_DIR=bin
     BUILD_TYPE="-r"
     EXT="prg"
 elif [[ $1 == "publish" ]]; then
-    BUILD_DIR=build
+    BUILD_DIR=bin
     BUILD_TYPE="-e -r"
     EXT="iq"
 elif [[ $1 == "debug" ]]; then
-    BUILD_DIR=build
+    BUILD_DIR=bin
     BUILD_TYPE=""
     EXT="prg"
 else  # simulator
