@@ -3,7 +3,7 @@
 workspaceFolder="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/.."
 
 SDK=${HOME}/.Garmin/ConnectIQ/Sdks/connectiq-sdk-*/bin
-DKEY=${workspaceFolder}/scripts/garmin_developer_key
+DKEY=${HOME}/keys/garmin_developer_key
 DEVICE=vivoactive3m
 
 
@@ -38,6 +38,10 @@ TARGET=${workspaceFolder}/${BUILD_DIR}/${PRJ_NAME}.${EXT}
 java -Dfile.encoding=UTF-8 -Dapple.awt.UIElement=true -jar ${SDK}/monkeybrains.jar -o ${TARGET} -w -y ${DKEY} -d ${DEVICE} ${BUILD_TYPE} -f ${workspaceFolder}/monkey.jungle
 
 if [[ $? -eq 0 ]] && [[ ${SIMULATOR} ]]; then
+    adb connect 192.168.0.102
+    sleep 1
+    adb forward tcp:7381 tcp:7381
+
     ${SDK}/connectiq &
     sleep 1
     ${SDK}/monkeydo ${TARGET} ${DEVICE}

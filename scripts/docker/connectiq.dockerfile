@@ -3,8 +3,12 @@ LABEL Name=connectiq Version=0.0.1
 
 RUN apt update -y; \
     apt install -y software-properties-common; \
-    apt install -y wget unzip vim less; \
+    apt install -y wget unzip vim less nmap net-tools netcat; \
     apt install -y openjdk-8-jre libswt-gtk-4-java libwebkitgtk-1.0-0 libcurl4
+
+RUN apt install -y adb; \
+    # generate keys
+    adb devices
 
 # ----------------------  arguments ----------------------------
 # can be altered via passing "--build-arg <varname>=<value>"
