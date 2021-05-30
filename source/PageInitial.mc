@@ -12,15 +12,15 @@
  */
 using Toybox.WatchUi;
 
-class PageInitial extends PageBase {
+class PageInitial extends BasePage {
     function initialize() {
-        PageBase.initialize();
+        BasePage.initialize();
     }
 
     //! Load your resources here
     function onLayout(dc) {
         setLayout(Rez.Layouts.LayoutPageInitial(dc));
-        return PageBase.onLayout(dc);
+        return BasePage.onLayout(dc);
     }
 
     // Called when this View is brought to the foreground. Restore
@@ -38,7 +38,7 @@ class PageInitial extends PageBase {
     // Update the view
     function onUpdate(dc) {
         updateRecButton();
-        PageBase.onUpdate(dc);
+        BasePage.onUpdate(dc);
         return true;
     }
 

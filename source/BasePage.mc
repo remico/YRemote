@@ -12,7 +12,7 @@
  */
 using Toybox.WatchUi;
 
-class PageBase extends WatchUi.View {
+class BasePage extends WatchUi.View {
     private var mLayout;
 
     function initialize() {

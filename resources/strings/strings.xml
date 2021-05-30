@@ -1,6 +1,11 @@
 <strings>
     <string id="AppName">YRemote</string>
     <!-- app settings -->
+    <string id="CommunicationType_title">Communication type</string>
+    <string id="CommunicationType_title_alias">Protocol</string>
+    <string id="CommunicationType_prompt">Protocol for interacting with companion app</string>
+    <string id="CommunicationType_item_DirectMessaging">Direct messaging</string>
+    <string id="CommunicationType_item_HttpRequest">HTTP requests</string>
     <string id="CameraEnabled">CAM enabled</string>
     <string id="CameraUrl">CAM url</string>
     <string id="CameraPort">CAM port</string>

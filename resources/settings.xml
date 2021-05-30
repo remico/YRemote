@@ -3,6 +3,8 @@
 <!-- PROPERTIES -->
 <properties>
 
+<property id="COMMUNICATION_TYPE" type="number">0</property>
+
 <property id="CAM_ENABLED" type="boolean">true</property>
 <property id="CAM_URL" type="string">https://192.168.0.105</property>
 <property id="CAM_PORT" type="number">7878</property>
@@ -16,28 +18,35 @@
 <!-- APP SETTINGS -->
 <settings>
 
+<setting propertyKey="@Properties.COMMUNICATION_TYPE" title="@Strings.CommunicationType_title" prompt="@Strings.CommunicationType_prompt">
+    <settingConfig type="list">
+        <listEntry value="0">@Strings.CommunicationType_item_DirectMessaging</listEntry>
+        <listEntry value="1">@Strings.CommunicationType_item_HttpRequest</listEntry>
+    </settingConfig>
+</setting>
+
 <setting propertyKey="@Properties.CAM_ENABLED" title="@Strings.CameraEnabled">
-<settingConfig type="boolean" />
+    <settingConfig type="boolean" />
 </setting>
 
 <setting propertyKey="@Properties.CAM_URL" title="@Strings.CameraUrl">
-<settingConfig type="url" />
+    <settingConfig type="url" />
 </setting>
 
 <setting propertyKey="@Properties.CAM_PORT" title="@Strings.CameraPort">
-<settingConfig type="numeric" />
+    <settingConfig type="numeric" />
 </setting>
 
 <setting propertyKey="@Properties.DAW_ENABLED" title="@Strings.DawEnabled">
-<settingConfig type="boolean" />
+    <settingConfig type="boolean" />
 </setting>
 
 <setting propertyKey="@Properties.DAW_URL" title="@Strings.DawUrl">
-<settingConfig type="url" />
+    <settingConfig type="url" />
 </setting>
 
 <setting propertyKey="@Properties.DAW_PORT" title="@Strings.DawPort">
-<settingConfig type="numeric" />
+    <settingConfig type="numeric" />
 </setting>
 
 </settings>

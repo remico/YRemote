@@ -12,7 +12,7 @@
  */
 using Toybox.WatchUi;
 
-class MenuCamera extends CBMenu {
+class MenuPageCamera extends CBMenu {
     var mCamera;
 
     function initialize(camera) {

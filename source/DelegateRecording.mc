@@ -51,7 +51,7 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
 
     function onMenuSettings() {
         Util.feedback(1);
-        var menu = new MenuSettings();
+        var menu = new MenuPageSettings();
         var delegate = new MenuSettingsDelegate(menu);
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_BLINK);
     }
@@ -112,7 +112,7 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
     function onCamera() {
         Util.feedback(1);
 
-        var menu = new MenuCamera(self.mYiCamera);
+        var menu = new MenuPageCamera(self.mYiCamera);
         var delegate = new CBMenuDelegate(menu);
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_IMMEDIATE);
     }

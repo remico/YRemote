@@ -16,8 +16,8 @@ class SettingsItem {
     private var mKey;
     private var mValue;
 
-    function initialize(key) {
-        self.mKey = key;
+    function initialize(propertyId) {
+        self.mKey = propertyId;
     }
 
     function get() {
@@ -38,6 +38,7 @@ class SettingsItem {
 
 
 class AppSettings {
+    static var CommunicationType = new SettingsItem("COMMUNICATION_TYPE");
     static var CamEnabled = new SettingsItem("CAM_ENABLED");
     static var CamUrl = new SettingsItem("CAM_URL");
     static var CamPort = new SettingsItem("CAM_PORT");

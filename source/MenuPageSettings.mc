@@ -13,7 +13,7 @@
 using Toybox.Application.Properties;
 using Toybox.WatchUi;
 
-class MenuSettings extends CBMenu2 {
+class MenuPageSettings extends CBMenu2 {
     function initialize() {
         CBMenu2.initialize(Rez.Strings.MenuHeaderSettings);
     }
@@ -44,6 +44,14 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
             {}
         );
         menu.addItem(itemDaw, :itemDaw, method(:_onItemDaw));
+
+        var itemCommunicationType = new WatchUi.MenuItem(
+            Rez.Strings.CommunicationType_title_alias,
+            MenuPageCommunicationType.mapValueToString(AppSettings.CommunicationType.get()),
+            :itemCommunicationType,
+            null
+        );
+        menu.addItem(itemCommunicationType, :itemCommunicationType, method(:_onItemCommunicationType));
     }
 
     function _onItemCamera() {
@@ -56,5 +64,11 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
         var idx = self.mMenu.findItemById(:itemDaw);
         var item = self.mMenu.getItem(idx);
         AppSettings.DawEnabled.set(item.isEnabled());
+    }
+
+    function _onItemCommunicationType() {
+        var menu = new MenuPageCommunicationType();
+        var delegate = new CBMenuDelegate(menu);
+        WatchUi.pushView(menu, delegate, WatchUi.SLIDE_BLINK);
     }
 }
