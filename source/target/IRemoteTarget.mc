@@ -17,11 +17,11 @@ using Toybox.WatchUi;
 class IRemoteTarget {
     private var mTargetName = self.toString();
     private var mTargetUrl = "";
-    private var mWebCallback;
+    private var mTargetResponseCallback;
 
-    function initialize(name, url, webCallback) {
+    function initialize(name, url, targetResponseCallback) {
         self.mTargetUrl = url;
-        self.mWebCallback = webCallback;
+        self.mTargetResponseCallback = targetResponseCallback;
 
         if (name instanceof Lang.String) {
             self.mTargetName = name;
@@ -51,7 +51,7 @@ class IRemoteTarget {
         Util.log("=> " + self.mTargetName + "::makeRequest2(" + command + ") ...");
 
         if (!System.getDeviceSettings().phoneConnected) {
-            self.mWebCallback.invoke($.Y_ERROR_NO_CONNECTION);
+            self.mTargetResponseCallback.invoke($.Y_ERROR_NO_CONNECTION);
             return;
         }
 
@@ -81,10 +81,10 @@ class IRemoteTarget {
             if (userContext != null && userContext has :invoke) {
                 userContext.invoke(data);
             }
-            self.mWebCallback.invoke(data);
+            self.mTargetResponseCallback.invoke(data);
         } else {
             var eMsg = "<= EE: " + self.mTargetName + ": " + responseCode.toString();
-            self.mWebCallback.invoke(eMsg);
+            self.mTargetResponseCallback.invoke(eMsg);
         }
     }
 }

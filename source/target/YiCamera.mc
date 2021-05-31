@@ -68,8 +68,8 @@ class YiCamera extends IRemoteTarget {
         YI_CMD_MEDIA_REMOVE = 1281,
     }
 
-    function initialize(url, webCallback) {
-        IRemoteTarget.initialize(Rez.Strings.TargetNameCamera, url, webCallback);
+    function initialize(url, targetResponseCallback) {
+        IRemoteTarget.initialize(Rez.Strings.TargetNameCamera, url, targetResponseCallback);
     }
 
     function isEnabled() {

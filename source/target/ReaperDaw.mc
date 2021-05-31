@@ -22,8 +22,8 @@ class ReaperDaw extends IRemoteTarget {
         REA_REC_RESTART = REA_REC_STOP_DEL + ";" + REA_REC_START,
     }
 
-    function initialize(url, webCallback) {
-        IRemoteTarget.initialize(Rez.Strings.TargetNameDaw, url, webCallback);
+    function initialize(url, targetResponseCallback) {
+        IRemoteTarget.initialize(Rez.Strings.TargetNameDaw, url, targetResponseCallback);
     }
 
     function isEnabled() {

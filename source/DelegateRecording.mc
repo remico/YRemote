@@ -19,15 +19,14 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
     private var mYiCamera;
     private var mDaw;
 
-    // Set up the callback to the view
-    function initialize(notify) {
+    function initialize(callback) {
         BehaviorDelegate.initialize();
 
         var cam_url = AppSettings.CamUrl.get() + ":" + AppSettings.CamPort.get();
         var daw_url = AppSettings.DawUrl.get() + ":" + AppSettings.DawPort.get();
 
-        self.mYiCamera = new YiCamera(cam_url, notify);
-        self.mDaw = new ReaperDaw(daw_url, notify);
+        self.mYiCamera = new YiCamera(cam_url, callback);
+        self.mDaw = new ReaperDaw(daw_url, callback);
     }
 
     function onKeyPressed(evt) {
