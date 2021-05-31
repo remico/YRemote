@@ -42,7 +42,7 @@ class PageInitial extends PageBase {
         return true;
     }
 
-    function updateRecButton() {
+    private function updateRecButton() {
         var recButton = findDrawableById( loadResource(Rez.Strings.IDRecButton) );
         if (recButton != null) {
             recButton.activate(AppState.isRecording());
