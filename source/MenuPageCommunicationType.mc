@@ -12,45 +12,101 @@
  */
 using Toybox.WatchUi;
 
-class MenuPageCommunicationType extends CBMenu {
 
-    private var mCallback;
+enum {
+    COMMTYPE_DIRECT_MESSAGING,
+    COMMTYPE_HTTP_REQUESTS
+}
 
-    private enum {
-        COMMTYPE_DIRECT_MESSAGING,
-        COMMTYPE_HTTP_REQUESTS
-    }
 
-    function initialize(callback) {
-        CBMenu.initialize();
-        mCallback = callback;
-        setTitle(Rez.Strings.CommunicationType_title_alias);
-        addItem(Rez.Strings.CommunicationType_item_DirectMessaging, :directMessagingMenuItem, method(:onDirectMessagingMenuItem));
-        addItem(Rez.Strings.CommunicationType_item_HttpRequest, :httpRequestsMenuItem, method(:onHttpRequestsMenuItem));
-    }
+class MenuPageCommunicationType extends CBCheckboxMenu2 {
 
-    function onDirectMessagingMenuItem() {
-        Util.feedback(1);
-        AppSettings.CommunicationType.set(COMMTYPE_DIRECT_MESSAGING);
-        mCallback.invoke(COMMTYPE_DIRECT_MESSAGING);
-    }
-
-    function onHttpRequestsMenuItem() {
-        Util.feedback(1);
-        AppSettings.CommunicationType.set(COMMTYPE_HTTP_REQUESTS);
-        mCallback.invoke(COMMTYPE_HTTP_REQUESTS);
+    function initialize() {
+        CBCheckboxMenu2.initialize(Rez.Strings.CommunicationType_title_alias);
     }
 
     static function mapToString(value) {
         var resId;
         switch (value) {
-            case MenuPageCommunicationType.COMMTYPE_DIRECT_MESSAGING:
+            case COMMTYPE_DIRECT_MESSAGING:
                 resId = Rez.Strings.CommunicationType_item_DirectMessaging;
                 break;
-            case MenuPageCommunicationType.COMMTYPE_HTTP_REQUESTS:
+            case COMMTYPE_HTTP_REQUESTS:
                 resId = Rez.Strings.CommunicationType_item_HttpRequest;
                 break;
         }
         return WatchUi.loadResource(resId);
     }
+
+}
+
+
+class MenuPageCommunicationTypeDelegate extends CBMenu2Delegate {
+
+    private var mCallback;
+    private var mTempCommunicationTypeValue;
+
+    function initialize(menu, callback) {
+        mCallback = callback;
+        mTempCommunicationTypeValue = AppSettings.CommunicationType.get();
+        CBMenu2Delegate.initialize(menu);
+        fillMenu(menu);
+    }
+
+    function fillMenu(menu) {
+        if (AppSettings.hasDirectMessagingSupport) {
+            var itemDirectMessaging = new WatchUi.CheckboxMenuItem(
+                Rez.Strings.CommunicationType_item_DirectMessaging,
+                null,
+                :directMessagingMenuItem,
+                mTempCommunicationTypeValue == COMMTYPE_DIRECT_MESSAGING,
+                null
+            );
+            menu.addItem(itemDirectMessaging, :directMessagingMenuItem, method(:onDirectMessagingMenuItem));
+        }
+
+        var itemHttpRequests = new WatchUi.CheckboxMenuItem(
+            Rez.Strings.CommunicationType_item_HttpRequest,
+            null,
+            :httpRequestsMenuItem,
+            mTempCommunicationTypeValue == COMMTYPE_HTTP_REQUESTS,
+            null
+        );
+        menu.addItem(itemHttpRequests, :httpRequestsMenuItem, method(:onHttpRequestsMenuItem));
+    }
+
+    private function updateUI() {
+        if (AppSettings.hasDirectMessagingSupport) {
+            var idx = mMenu.findItemById(:directMessagingMenuItem);
+            mMenu.getItem(idx).setChecked(mTempCommunicationTypeValue == COMMTYPE_DIRECT_MESSAGING);
+        }
+
+        var idx = mMenu.findItemById(:httpRequestsMenuItem);
+        mMenu.getItem(idx).setChecked(mTempCommunicationTypeValue == COMMTYPE_HTTP_REQUESTS);
+    }
+
+    private function setCommunicationType(value) {
+        if (value != COMMTYPE_DIRECT_MESSAGING || AppSettings.hasDirectMessagingSupport) {
+            Util.feedback(1);
+            mTempCommunicationTypeValue = value;
+        }
+        updateUI();
+    }
+
+    function onDone() {
+        AppSettings.CommunicationType.set(mTempCommunicationTypeValue);
+        if (mCallback != null) {
+            mCallback.invoke(mTempCommunicationTypeValue);
+        }
+        CBMenu2Delegate.onDone();
+    }
+
+    function onDirectMessagingMenuItem() {
+        setCommunicationType(COMMTYPE_DIRECT_MESSAGING);
+    }
+
+    function onHttpRequestsMenuItem() {
+        setCommunicationType(COMMTYPE_HTTP_REQUESTS);
+    }
+
 }

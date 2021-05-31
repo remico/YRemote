@@ -17,6 +17,13 @@ class YRemoteApp extends Application.AppBase {
 
     function initialize() {
         AppBase.initialize();
+
+        // force reset settings before the app starts
+        if (!AppSettings.hasDirectMessagingSupport
+                && AppSettings.CommunicationType.get() == COMMTYPE_DIRECT_MESSAGING) {
+            AppSettings.CommunicationType.set(COMMTYPE_HTTP_REQUESTS);
+        }
+
         Util.log("\n### STARTED: " + Util.timestamp());
     }
 

@@ -21,6 +21,7 @@ class MenuPageSettings extends CBMenu2 {
 
 
 class MenuSettingsDelegate extends CBMenu2Delegate {
+
     function initialize(menu) {
         CBMenu2Delegate.initialize(menu);
         fillMenu(menu);
@@ -49,7 +50,7 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
             Rez.Strings.CommunicationType_title_alias,
             MenuPageCommunicationType.mapToString(AppSettings.CommunicationType.get()),
             :itemCommunicationType,
-            null
+            {}
         );
         menu.addItem(itemCommunicationType, :itemCommunicationType, method(:_onItemCommunicationType));
     }
@@ -67,17 +68,18 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
     }
 
     function _onItemCommunicationType() {
-        var menu = new MenuPageCommunicationType(method(:_onItemCommunicationTypeChanged));
-        var delegate = new CBMenuDelegate(menu);
+        var menu = new MenuPageCommunicationType();
+        var delegate = new MenuPageCommunicationTypeDelegate(menu, method(:_onItemCommunicationTypeChanged));
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_BLINK);
     }
 
     function _onItemCommunicationTypeChanged(value) {
         var idx = self.mMenu.findItemById(:itemCommunicationType);
         var itemCommType = self.mMenu.getItem(idx);
-        var commTypeValue = AppSettings.CommunicationType.get();
+        var currentValue = AppSettings.CommunicationType.get();
         itemCommType.setSubLabel(
-            MenuPageCommunicationType.mapToString(commTypeValue)
+            MenuPageCommunicationType.mapToString(currentValue)
         );
     }
+
 }

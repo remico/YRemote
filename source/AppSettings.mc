@@ -11,8 +11,9 @@
  * Copyright (c) 2021 remico
  */
 using Toybox.Application.Properties;
+using Toybox.Communications;
 
-class SettingsItem {
+class AppSettingsItem {
     private var mKey;
     private var mValue;
 
@@ -38,11 +39,13 @@ class SettingsItem {
 
 
 class AppSettings {
-    static var CommunicationType = new SettingsItem("COMMUNICATION_TYPE");
-    static var CamEnabled = new SettingsItem("CAM_ENABLED");
-    static var CamUrl = new SettingsItem("CAM_URL");
-    static var CamPort = new SettingsItem("CAM_PORT");
-    static var DawEnabled = new SettingsItem("DAW_ENABLED");
-    static var DawUrl = new SettingsItem("DAW_URL");
-    static var DawPort = new SettingsItem("DAW_PORT");
+    static var CommunicationType = new AppSettingsItem("COMMUNICATION_TYPE");
+    static var CamEnabled = new AppSettingsItem("CAM_ENABLED");
+    static var CamUrl = new AppSettingsItem("CAM_URL");
+    static var CamPort = new AppSettingsItem("CAM_PORT");
+    static var DawEnabled = new AppSettingsItem("DAW_ENABLED");
+    static var DawUrl = new AppSettingsItem("DAW_URL");
+    static var DawPort = new AppSettingsItem("DAW_PORT");
+
+    static var hasDirectMessagingSupport = (Communications has :registerForPhoneAppMessages);
 }

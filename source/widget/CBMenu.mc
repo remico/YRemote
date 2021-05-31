@@ -15,8 +15,9 @@ using Toybox.WatchUi;
 class CBMenu extends WatchUi.Menu {
     private var mCallbacks = {};
 
-    function initialize() {
+    function initialize(title) {
         WatchUi.Menu.initialize();
+        setTitle(title);
     }
 
     function addItem(name, identifier, callback) {

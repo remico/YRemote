@@ -16,11 +16,10 @@ class MenuPageCamera extends CBMenu {
     var mCamera;
 
     function initialize(camera) {
-        CBMenu.initialize();
+        CBMenu.initialize(Rez.Strings.MenuHeaderCamera);
 
         self.mCamera = camera;
 
-        setTitle(Rez.Strings.MenuHeaderCamera);
         addItem(Rez.Strings.MenuItemAuthConfirmationRequest, :authenticate, method(:onMenuAuthenticate));
         addItem(Rez.Strings.MenuItemLiveStart, :liveStart, method(:onMenuLiveStart));
         addItem(Rez.Strings.MenuItemLiveStop, :liveStop, method(:onMenuLiveStop));

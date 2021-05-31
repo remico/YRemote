@@ -12,36 +12,19 @@
  */
 using Toybox.WatchUi;
 
-class CBMenu2 extends WatchUi.Menu2 {
+class CBCheckboxMenu2 extends WatchUi.CheckboxMenu {
     private var mCallbacks = {};
 
     function initialize(title) {
-        Menu2.initialize({:title=>title});
+        CheckboxMenu.initialize({:title=>title});
     }
 
     function addItem(item, identifier, callback) {
-        Menu2.addItem(item);
+        CheckboxMenu.addItem(item);
         self.mCallbacks.put(identifier, callback);
     }
 
     function callback(identifier) {
         return self.mCallbacks.get(identifier);
-    }
-}
-
-
-class CBMenu2Delegate extends WatchUi.Menu2InputDelegate {
-    protected var mMenu;
-
-    function initialize(menu) {
-        self.mMenu = menu;
-        Menu2InputDelegate.initialize();
-    }
-
-    function onSelect(item) {
-        var callback = self.mMenu.callback(item.getId());
-        if (callback != null) {
-            callback.invoke();
-        }
     }
 }

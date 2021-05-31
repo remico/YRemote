@@ -39,10 +39,9 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
 
     // ----------- system menu begin ----------
     function onMenu() {
-        var menu = new CBMenu();
+        var menu = new CBMenu(Rez.Strings.MenuHeaderMain);
         var delegate = new CBMenuDelegate(menu);
 
-        menu.setTitle(Rez.Strings.MenuHeaderMain);
         menu.addItem(Rez.Strings.MenuItemSettings, :settings, method(:onMenuSettings));
 
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_IMMEDIATE);
