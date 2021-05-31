@@ -47,7 +47,7 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
 
         var itemCommunicationType = new WatchUi.MenuItem(
             Rez.Strings.CommunicationType_title_alias,
-            MenuPageCommunicationType.mapValueToString(AppSettings.CommunicationType.get()),
+            MenuPageCommunicationType.mapToString(AppSettings.CommunicationType.get()),
             :itemCommunicationType,
             null
         );
@@ -56,19 +56,28 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
 
     function _onItemCamera() {
         var idx = self.mMenu.findItemById(:itemCamera);
-        var item = self.mMenu.getItem(idx);
-        AppSettings.CamEnabled.set(item.isEnabled());
+        var itemCam = self.mMenu.getItem(idx);
+        AppSettings.CamEnabled.set(itemCam.isEnabled());
     }
 
     function _onItemDaw() {
         var idx = self.mMenu.findItemById(:itemDaw);
-        var item = self.mMenu.getItem(idx);
-        AppSettings.DawEnabled.set(item.isEnabled());
+        var itemDaw = self.mMenu.getItem(idx);
+        AppSettings.DawEnabled.set(itemDaw.isEnabled());
     }
 
     function _onItemCommunicationType() {
-        var menu = new MenuPageCommunicationType();
+        var menu = new MenuPageCommunicationType(method(:_onItemCommunicationTypeChanged));
         var delegate = new CBMenuDelegate(menu);
         WatchUi.pushView(menu, delegate, WatchUi.SLIDE_BLINK);
+    }
+
+    function _onItemCommunicationTypeChanged(value) {
+        var idx = self.mMenu.findItemById(:itemCommunicationType);
+        var itemCommType = self.mMenu.getItem(idx);
+        var commTypeValue = AppSettings.CommunicationType.get();
+        itemCommType.setSubLabel(
+            MenuPageCommunicationType.mapToString(commTypeValue)
+        );
     }
 }

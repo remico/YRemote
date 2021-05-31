@@ -14,13 +14,16 @@ using Toybox.WatchUi;
 
 class MenuPageCommunicationType extends CBMenu {
 
+    private var mCallback;
+
     private enum {
         COMMTYPE_DIRECT_MESSAGING,
         COMMTYPE_HTTP_REQUESTS
     }
 
-    function initialize() {
+    function initialize(callback) {
         CBMenu.initialize();
+        mCallback = callback;
         setTitle(Rez.Strings.CommunicationType_title_alias);
         addItem(Rez.Strings.CommunicationType_item_DirectMessaging, :directMessagingMenuItem, method(:onDirectMessagingMenuItem));
         addItem(Rez.Strings.CommunicationType_item_HttpRequest, :httpRequestsMenuItem, method(:onHttpRequestsMenuItem));
@@ -29,14 +32,16 @@ class MenuPageCommunicationType extends CBMenu {
     function onDirectMessagingMenuItem() {
         Util.feedback(1);
         AppSettings.CommunicationType.set(COMMTYPE_DIRECT_MESSAGING);
+        mCallback.invoke(COMMTYPE_DIRECT_MESSAGING);
     }
 
     function onHttpRequestsMenuItem() {
         Util.feedback(1);
         AppSettings.CommunicationType.set(COMMTYPE_HTTP_REQUESTS);
+        mCallback.invoke(COMMTYPE_HTTP_REQUESTS);
     }
 
-    static function mapValueToString(value) {
+    static function mapToString(value) {
         var resId;
         switch (value) {
             case MenuPageCommunicationType.COMMTYPE_DIRECT_MESSAGING:
