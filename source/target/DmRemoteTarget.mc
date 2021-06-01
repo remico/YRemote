@@ -14,54 +14,50 @@ using Toybox.Communications;
 
 class DmRemoteTarget extends IRemoteTarget {
 
-    private var mSenderName = "";
+    private enum DmPacketFields {
+        DMPKT_CNTXID = "cntxid",
+        DMPKT_PAYLOAD = "payload"
+    }
+
+    private var mListener = new DmConnectionListener(null, method(:onTxError));
+    private var mUserContextStorage = new UserContextStorage();
+    private var mCurrentContextId;  // valid only for callbacks in current transmission process
 
     function initialize(targetResponseCallback) {
         IRemoteTarget.initialize(targetResponseCallback);
     }
 
     protected function doRequest(senderName, url, command, httpMethod, params, userContext) {
-        self.mSenderName = senderName;
+        var cntx = new UserContext(senderName, userContext);
+        self.mUserContextStorage.saveContext(cntx);
 
-        var data = "";
+        self.mCurrentContextId = cntx.id;
 
-        if (params != null) {
-            // CAM => build json
-            for (var i = 0; i < params.size(); ++i) {
-                var key = params.keys()[i];
-                var value = params[key];
+        var data = params != null ? params : url.toString();
+        var txPacket = {
+            DMPKT_CNTXID => cntx.id,
+            DMPKT_PAYLOAD => data
+        };
 
-                data += "\"" + key + "\"=";
-
-                if (value instanceof Lang.String) {
-                    data += "\"" + value + "\"";
-                } else if (value instanceof Lang.Number) {
-                    data += value;
-                } else if (value == null) {
-                    data += "\"null\"";
-                }
-
-                if (i + 1 < params.size()) {
-                    data += ",";
-                }
-            }
-            data = "{" + data + "}";
-        } else {
-            // DAW => commands encoded in URLs
-            data = url.toString();
-        }
-
-        var listener = new DmConnectionListener(null, method(:onTxError));
-        Communications.transmit(data, {}, listener);
+        Communications.transmit(txPacket, {}, self.mListener);
     }
 
     function onTxError() {
-        var eMsg = "<= EE: " + self.mSenderName + ": " + "DM transmission failed";
+        var cntx = self.mUserContextStorage.popContext(self.mCurrentContextId);
+        var eMsg = "<= EE: " + cntx.senderName + ": " + "DM transmission failed";
         self.mTargetResponseCallback.invoke(eMsg);
     }
 
     function onRxCallback(msg) {
-        self.mTargetResponseCallback.invoke(msg.data);
+        var cntxid = msg.data.get(DMPKT_CNTXID);
+        var body = msg.data.get(DMPKT_PAYLOAD);
+
+        var userContext = self.mUserContextStorage.popContext(cntxid);
+        if (userContext != null && userContext.payload != null && userContext.payload has :invoke) {
+            userContext.payload.invoke(body);
+        }
+
+        self.mTargetResponseCallback.invoke(body);
     }
 
     protected function setupRxCallback() {
