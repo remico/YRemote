@@ -55,7 +55,7 @@ class UserContextRemoveMedia {
 }
 
 
-class YiCamera extends IRemoteTarget {
+class YiCamera {
 
     private enum {
         YI_CMD_AUTHENTICATE = 257,
@@ -68,8 +68,10 @@ class YiCamera extends IRemoteTarget {
         YI_CMD_MEDIA_REMOVE = 1281,
     }
 
-    function initialize(url, targetResponseCallback) {
-        IRemoteTarget.initialize(Rez.Strings.TargetNameCamera, url, targetResponseCallback);
+    private var mUrl;
+
+    function initialize(url) {
+        mUrl = url;
     }
 
     function isEnabled() {
@@ -134,6 +136,10 @@ class YiCamera extends IRemoteTarget {
     }
 
     function makeRequest2Param(command, userContext, extraParams) {
+        if (!isEnabled()) {
+            return;
+        }
+
         var params = {
             "msg_id" => command,
             "token" => self.getYiToken()
@@ -147,8 +153,9 @@ class YiCamera extends IRemoteTarget {
             }
         }
 
-        IRemoteTarget.makeRequest2(
-            targetUrl(),
+        YRemoteApp.RemoteTarget.makeRequestRemote(
+            Rez.Strings.TargetNameCamera,
+            mUrl,
             command,
             Communications.HTTP_REQUEST_METHOD_POST,
             params,

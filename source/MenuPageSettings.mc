@@ -10,6 +10,7 @@
  *
  * Copyright (c) 2021 remico
  */
+using Toybox.Application;
 using Toybox.Application.Properties;
 using Toybox.WatchUi;
 
@@ -25,6 +26,11 @@ class MenuSettingsDelegate extends CBMenu2Delegate {
     function initialize(menu) {
         CBMenu2Delegate.initialize(menu);
         fillMenu(menu);
+    }
+
+    function onBack() {
+        CBMenu2Delegate.onDone();
+        Application.getApp().onSettingsChanged();
     }
 
     private function fillMenu(menu) {

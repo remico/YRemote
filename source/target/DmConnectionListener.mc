@@ -12,7 +12,7 @@
  */
 using Toybox.Communications;
 
-class DMConnectionListener extends Communications.ConnectionListener {
+class DmConnectionListener extends Communications.ConnectionListener {
 
     private var mOnOk;
     private var mOnError;

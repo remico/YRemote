@@ -14,6 +14,7 @@ using Toybox.Application;
 
 class YRemoteApp extends Application.AppBase {
     private var mResponseQueue = new PopupQueue();
+    static var RemoteTarget;
 
     function initialize() {
         AppBase.initialize();
@@ -23,6 +24,8 @@ class YRemoteApp extends Application.AppBase {
                 && AppSettings.CommunicationType.get() == COMMTYPE_DIRECT_MESSAGING) {
             AppSettings.CommunicationType.set(COMMTYPE_HTTP_REQUESTS);
         }
+
+        self.RemoteTarget = RemoteTargetFactory.newRemoteTarget(method(:onTargetResponse));
 
         Util.log("\n### STARTED: " + Util.timestamp());
     }
@@ -38,11 +41,15 @@ class YRemoteApp extends Application.AppBase {
     // Return the initial view of your application here
     function getInitialView() {
         var view = new PageInitial();
-        var delegate = new DelegateRecording(method(:_onTargetResponse));
+        var delegate = new DelegateRecording();
         return [view, delegate];
     }
 
-    function _onTargetResponse(args) {
+    function onSettingsChanged() {
+        self.RemoteTarget = RemoteTargetFactory.newRemoteTarget(method(:onTargetResponse));
+    }
+
+    function onTargetResponse(args) {
         var message = "";
 
         // remote target error

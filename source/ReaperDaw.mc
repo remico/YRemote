@@ -13,7 +13,7 @@
 using Toybox.Communications;
 using Toybox.WatchUi;
 
-class ReaperDaw extends IRemoteTarget {
+class ReaperDaw {
 
     private enum {
         REA_REC_START = 1013,
@@ -22,8 +22,10 @@ class ReaperDaw extends IRemoteTarget {
         REA_REC_RESTART = REA_REC_STOP_DEL + ";" + REA_REC_START,
     }
 
-    function initialize(url, targetResponseCallback) {
-        IRemoteTarget.initialize(Rez.Strings.TargetNameDaw, url, targetResponseCallback);
+    private var mUrl;
+
+    function initialize(url) {
+        mUrl = url;
     }
 
     function isEnabled() {
@@ -59,10 +61,13 @@ class ReaperDaw extends IRemoteTarget {
     }
 
     function makeRequest2(command, userContext) {
-        var url = targetUrl() + "/_/" + command + ";TRANSPORT;";
+        if (!isEnabled()) {
+            return;
+        }
 
-        IRemoteTarget.makeRequest2(
-            url,
+        YRemoteApp.RemoteTarget.makeRequestRemote(
+            Rez.Strings.TargetNameDaw,
+            mUrl + "/_/" + command + ";TRANSPORT;",
             command,
             Communications.HTTP_REQUEST_METHOD_GET,
             null,
