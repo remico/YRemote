@@ -23,16 +23,20 @@ TCP_TIMEOUT = 5  # sec
 YI_CMD_REC_STOP = 514
 
 
-class YiCamera:
-    _decoder = json.JSONDecoder()
-
-    def __init__(self, address, port, selector=None) -> None:
-        self.m_address = address
-        self.m_port = port
-        self.m_selector = selector
-        self.m_msg_id = 0
-        self.m_sock = None
+class SockReader:
+    def __init__(self, sock) -> None:
+        self.m_decoder = json.JSONDecoder()
         self.m_rx_buffer = ""
+        self.m_sock = sock
+
+    def __enter__(self):
+        self._read_sock()
+        return self._decode()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type is json.decoder.JSONDecodeError:
+            pass  # leave remaining (i.e. incomplete) data in buffer as is
+            return True
 
     def _read_sock(self):
         try:
@@ -48,7 +52,7 @@ class YiCamera:
                 return json.loads("{}")
 
             try:
-                rx_data, end_idx = self._decoder.raw_decode(self.m_rx_buffer)
+                rx_data, end_idx = self.m_decoder.raw_decode(self.m_rx_buffer)
             except ValueError as decoding_error:
                 print("EE: CAM rx buffer decoding error:", decoding_error)
                 return json.loads("{}")
@@ -56,15 +60,15 @@ class YiCamera:
             self.m_rx_buffer = self.m_rx_buffer[end_idx:]
             yield rx_data
 
-    @contextmanager
-    def _sock_reader(self):
-        self._read_sock()
-        try:
-            yield self._decode()
-        except json.decoder.JSONDecodeError:
-            pass  # leave remaining (i.e. incomplete) data in buffer as is
-        finally:
-            pass  # e.g. release resources
+
+class YiCamera:
+    def __init__(self, address, port, selector=None) -> None:
+        self.m_address = address
+        self.m_port = port
+        self.m_selector = selector
+        self.m_msg_id = 0
+        self.m_sock = None
+        self.m_sock_reader = None
 
     def _is_response(self, rx_json):
         try:
@@ -84,6 +88,7 @@ class YiCamera:
         self.m_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.m_sock.settimeout(TCP_TIMEOUT)
         self.m_sock.connect((self.m_address, self.m_port))
+        self.m_sock_reader = SockReader(self.m_sock)
 
         if self.m_selector:
             self.m_selector.register(self.m_sock, selectors.EVENT_READ, self.read_chunk)
@@ -95,7 +100,7 @@ class YiCamera:
         return self.m_sock.send(data)
 
     def read_chunk(self):
-        with self._sock_reader() as jsons:
+        with self.m_sock_reader as jsons:
             for rx_json in jsons:
                 print("II:", rx_json)
 
@@ -104,7 +109,7 @@ class YiCamera:
         response = None
 
         while True:
-            with self._sock_reader() as jsons:
+            with self.m_sock_reader as jsons:
                 for rx_json in jsons:
                     if self._is_response(rx_json):
                         response = rx_json
