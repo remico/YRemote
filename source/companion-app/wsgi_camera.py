@@ -18,10 +18,10 @@ from http import HTTPStatus
 from . import response
 from .camera import YiCamera
 
-__all__ = ['wsgi_app']
+__all__ = ['wsgi_cam']
 
 
-def wsgi_app(camera: YiCamera, app_env, start_response):
+def wsgi_cam(camera: YiCamera, app_env, start_response):
     """WSGI app
 
     Args:

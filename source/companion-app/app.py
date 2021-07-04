@@ -18,7 +18,7 @@ from functools import partial
 from wsgiref.simple_server import make_server
 
 from .camera import YiCamera
-from .wsgi_camera import wsgi_app as camera_app
+from .wsgi_camera import wsgi_cam as camera_app
 from .wsgi_daw import wsgi_daw as daw_app
 
 SECURE = True
