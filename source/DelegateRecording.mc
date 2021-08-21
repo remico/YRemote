@@ -59,15 +59,22 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
         Util.feedback(1);
 
         if (cameraEnabled()) {
-            self.mYiCamera.recStart(method(:_StartRecordingOk));
+            self.mYiCamera.recStart(method(:_onCamStartRecordingOk));
         } else {
-            self.mDaw.recStart();
+            self.mDaw.recStart(method(:_onStartRecordingOk));
         }
     }
 
-    function _StartRecordingOk(d) {
+    function _onCamStartRecordingOk(d) {
+        if (dawEnabled()) {
+            self.mDaw.recStart(method(:_onStartRecordingOk));
+        } else {
+            _onStartRecordingOk(d);
+        }
+    }
+
+    function _onStartRecordingOk(d) {
         AppState.set($.Y_STATE_RECORDING);
-        self.mDaw.recStart();
     }
 
     function restartRecording() {
@@ -88,9 +95,17 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
         Util.feedback(2);
 
         if (cameraEnabled()) {
-            self.mYiCamera.recStop(method(:_onStopRecordingOk));
+            self.mYiCamera.recStop(method(:_onCamStopRecordingOk));
         } else {
-            self.mDaw.recStop();
+            self.mDaw.recStop(method(:_onStopRecordingOk));
+        }
+    }
+
+    function _onCamStopRecordingOk(d) {
+        if (dawEnabled()) {
+            self.mDaw.recStop(method(:_onStopRecordingOk));
+        } else {
+            _onStopRecordingOk(d);
         }
     }
 
@@ -99,8 +114,6 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
 
         var timer = new Timer.Timer();
         timer.start(method(:_onStopTimeoutOk), 2000, false);
-
-        self.mDaw.recStop();
     }
 
     function _onStopTimeoutOk() {
@@ -133,5 +146,9 @@ class DelegateRecording extends WatchUi.BehaviorDelegate {
 
     private function cameraEnabled() {
         return AppSettings.CamEnabled.get();
+    }
+
+    private function dawEnabled() {
+        return AppSettings.DawEnabled.get();
     }
 }

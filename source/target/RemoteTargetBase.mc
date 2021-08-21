@@ -14,7 +14,7 @@ using Toybox.Communications;
 using Toybox.Timer;
 using Toybox.WatchUi;
 
-class IRemoteTarget {
+class RemoteTargetBase {
     protected var mTargetName = self.toString();
     protected var mTargetResponseCallback;
 

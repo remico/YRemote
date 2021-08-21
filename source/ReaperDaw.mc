@@ -32,29 +32,27 @@ class ReaperDaw {
         return AppSettings.DawEnabled.get();
     }
 
-    function recStart() {
-        makeRequest2(REA_REC_START, method(:_onRecStartOk));
+    function recStart(callback) {
+        makeRequest2(REA_REC_START, callback);
     }
 
-    function _onRecStartOk(d) {
-        Util.log("_onRecStartOk");
-    }
+    // function _onRecStartOk(d) {
+    //     AppState.set($.Y_STATE_RECORDING);
+    // }
 
     function recRestart() {
         makeRequest2(REA_REC_RESTART, method(:_onRecRestartOk));
     }
 
-    function _onRecRestartOk(d) {
-        Util.log("_onRecRestartOk");
+    function _onRecRestartOk(d) {}
+
+    function recStop(callback) {
+        makeRequest2(REA_REC_STOP_SAV, callback);
     }
 
-    function recStop() {
-        makeRequest2(REA_REC_STOP_SAV, method(:_onRecStopOk));
-    }
-
-    function _onRecStopOk(d) {
-        Util.log("_onRecStopOk");
-    }
+    // function _onRecStopOk(d) {
+    //     AppState.set($.Y_STATE_IDLE);
+    // }
 
     function makeRequest(command) {
         makeRequest2(command, null);

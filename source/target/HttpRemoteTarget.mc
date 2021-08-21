@@ -12,12 +12,12 @@
  */
 using Toybox.Communications;
 
-class HttpRemoteTarget extends IRemoteTarget {
+class HttpRemoteTarget extends RemoteTargetBase {
 
     private var mSenderName = "";
 
     function initialize(targetResponseCallback) {
-        IRemoteTarget.initialize(targetResponseCallback);
+        RemoteTargetBase.initialize(targetResponseCallback);
     }
 
     protected function doRequest(senderName, url, command, httpMethod, params, userContext) {

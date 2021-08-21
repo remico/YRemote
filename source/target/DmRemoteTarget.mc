@@ -12,7 +12,7 @@
  */
 using Toybox.Communications;
 
-class DmRemoteTarget extends IRemoteTarget {
+class DmRemoteTarget extends RemoteTargetBase {
 
     private enum DmPacketFields {
         DMPKT_CNTXID = "cntxid",
@@ -24,7 +24,7 @@ class DmRemoteTarget extends IRemoteTarget {
     private var mCurrentContextId;  // valid only for callbacks in current transmission process
 
     function initialize(targetResponseCallback) {
-        IRemoteTarget.initialize(targetResponseCallback);
+        RemoteTargetBase.initialize(targetResponseCallback);
     }
 
     protected function doRequest(senderName, url, command, httpMethod, params, userContext) {
