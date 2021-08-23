@@ -79,7 +79,11 @@ class YiCamera {
     }
 
     private function getYiToken() {
-        return Application.Storage.getValue(YI_TOKEN);
+        var token = Application.Storage.getValue(YI_TOKEN);
+        if (token == null) {
+            token = 0;
+        }
+        return token;
     }
 
     function authenticate() {
