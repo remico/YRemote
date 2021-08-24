@@ -18,34 +18,39 @@
         </palette>
     </bitmap>
     <!-- buttons -->
-    <bitmap id="RecStartButtonDefault" filename="play_w.png" dithering="none" >
+    <bitmap id="RecStartButtonDefault" filename="start.png" dithering="none" >
+        <palette disableTransparency="false">
+            <color>FFFFFF</color>
+            <color>FF0000</color>
+        </palette>
+    </bitmap>
+    <bitmap id="RecStartButtonPressed" filename="start_pressed.png" dithering="none" >
+        <palette disableTransparency="false">
+            <color>FFFFFF</color>
+            <color>FF0000</color>
+            <color>FFAA00</color>
+        </palette>
+    </bitmap>
+    <bitmap id="RecRestartButtonDefault" filename="restart.png" dithering="none" >
         <palette disableTransparency="false">
             <color>FFFFFF</color>
         </palette>
     </bitmap>
-    <bitmap id="RecStartButtonPressed" filename="play_pressed.png" dithering="none" >
-        <palette disableTransparency="false">
-            <color>00FF00</color>
-        </palette>
-    </bitmap>
-    <bitmap id="RecRestartButtonDefault" filename="replay_w.png" dithering="none" >
+    <bitmap id="RecRestartButtonPressed" filename="restart_pressed.png" dithering="none" >
         <palette disableTransparency="false">
             <color>FFFFFF</color>
+            <color>FFAA00</color>
         </palette>
     </bitmap>
-    <bitmap id="RecRestartButtonPressed" filename="replay_pressed.png" dithering="none" >
-        <palette disableTransparency="false">
-            <color>00FF00</color>
-        </palette>
-    </bitmap>
-    <bitmap id="RecStopButtonDefault" filename="stop_w.png" dithering="none" >
+    <bitmap id="RecStopButtonDefault" filename="stop.png" dithering="none" >
         <palette disableTransparency="false">
             <color>FFFFFF</color>
         </palette>
     </bitmap>
     <bitmap id="RecStopButtonPressed" filename="stop_pressed.png" dithering="none" >
         <palette disableTransparency="false">
-            <color>00FF00</color>
+            <color>FFFFFF</color>
+            <color>FFAA00</color>
         </palette>
     </bitmap>
 </drawables>
