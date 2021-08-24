@@ -1,8 +1,9 @@
 <drawables>
     <!-- launcher -->
-    <bitmap id="LauncherIcon" filename="launcher_icon.png" dithering="none" >
+    <bitmap id="LauncherIcon" filename="ic_launcher_40x33.png" dithering="none" >
         <palette disableTransparency="false">
             <color>FFFFFF</color>
+            <color>000000</color>
         </palette>
     </bitmap>
     <!-- icons -->

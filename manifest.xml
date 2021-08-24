@@ -2,6 +2,7 @@
     <iq:application entry="YRemoteApp" id="fe194051-c853-4b46-8d16-5a1702464637" launcherIcon="@Drawables.LauncherIcon" minSdkVersion="3.1.0" name="@Strings.AppName" type="watch-app" version="0.0.1">
         <iq:products>
             <iq:product id="vivoactive3m"/>
+            <iq:product id="vivoactive4"/>
         </iq:products>
         <iq:permissions>
             <iq:uses-permission id="Communications"/>

@@ -1,0 +1,30 @@
+<layout id="LayoutPageInitial">
+    <button x="60" y="10%" width="48" height="36" background="Graphics.COLOR_BLACK" behavior="onCamera">
+        <state id="stateDefault" bitmap="@Drawables.CameraIcon" />
+        <state id="stateHighlighted" bitmap="@Drawables.CameraIcon" />
+        <state id="stateSelected" bitmap="@Drawables.CameraIcon" />
+        <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
+    </button>
+    <button x="160" y="10%" width="48" height="36" background="Graphics.COLOR_BLACK" behavior="onDaw">
+        <state id="stateDefault" bitmap="@Drawables.DawIcon" />
+        <state id="stateHighlighted" bitmap="@Drawables.DawIcon" />
+        <state id="stateSelected" bitmap="@Drawables.DawIcon" />
+        <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
+    </button>
+    <button x="50" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onButtonStop">
+        <state id="stateDefault" bitmap="@Drawables.RecStopButtonDefault" />
+        <state id="stateHighlighted" bitmap="@Drawables.RecStopButtonPressed" />
+        <state id="stateSelected" bitmap="@Drawables.RecStopButtonPressed" />
+        <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
+    </button>
+    <button class="StatefulButton" x="156" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onButtonRec">
+        <state id="stateDefault" bitmap="@Drawables.RecStartButtonDefault" />
+        <state id="stateHighlighted" bitmap="@Drawables.RecStartButtonPressed" />
+        <state id="stateSelected" bitmap="@Drawables.RecStartButtonPressed" />
+        <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
+        <param name="stateDefaultActive">@Drawables.RecRestartButtonDefault</param>
+        <param name="stateHighlightedActive">@Drawables.RecRestartButtonPressed</param>
+        <param name="stateSelectedActive">@Drawables.RecRestartButtonPressed</param>
+        <param name="id">@Strings.IDRecButton</param>
+    </button>
+</layout>
