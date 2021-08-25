@@ -87,7 +87,9 @@ class YiCamera {
     }
 
     function authenticate() {
-        makeRequest2(YI_CMD_AUTHENTICATE, method(:_onAuthenticateOk));
+        makeRequest2(YI_CMD_AUTHENTICATE, YiCameraCallback.method(
+            method(:_onAuthenticateOk), null
+        ));
     }
 
     function _onAuthenticateOk(d) {
