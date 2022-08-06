@@ -20,6 +20,9 @@ class ReaperDaw {
         REA_REC_STOP_SAV = 40667,
         REA_REC_STOP_DEL = 40668,
         REA_REC_RESTART = REA_REC_STOP_DEL + ";" + REA_REC_START,
+        REA_RESET_ALL_MIDI_DEVICES = 41175,
+        REA_RESET_ALL_MIDI_CONTROL_DEVICES = 42348,
+        REA_DELETE_ACTIVE_TAKE = 40129,
     }
 
     private var mUrl;
