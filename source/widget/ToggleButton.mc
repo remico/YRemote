@@ -12,7 +12,7 @@
  */
 using Toybox.WatchUi;
 
-class StatefulButton extends WatchUi.Button {
+class ToggleButton extends WatchUi.Button {
     private var mStateDefaultInactive;
     private var mStateHighlightedInactive;
     private var mStateSelectedInactive;

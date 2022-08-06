@@ -17,7 +17,7 @@
         <state id="stateSelected" bitmap="@Drawables.RecStopButtonPressed" />
         <state id="stateDisabled" color="Graphics.COLOR_BLACK" />
     </button>
-    <button class="StatefulButton" x="136" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onButtonRec">
+    <button class="ToggleButton" x="136" y="center" width="64" height="64" background="Graphics.COLOR_BLACK" behavior="onButtonRec">
         <state id="stateDefault" bitmap="@Drawables.RecStartButtonDefault" />
         <state id="stateHighlighted" bitmap="@Drawables.RecStartButtonPressed" />
         <state id="stateSelected" bitmap="@Drawables.RecStartButtonPressed" />
